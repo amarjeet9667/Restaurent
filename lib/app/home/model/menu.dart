@@ -1,16 +1,38 @@
-class MenuCategoryItem {
+// class Menu {
+//   final String? name;
+//   final int? price;
+//   final bool? instock;
+
+//   Menu({
+//     required this.name,
+//     required this.price,
+//     required this.instock,
+//   });
+// }
+
+// class FoodTypes {
+//   final String? name;
+//   final List<Menu>? item;
+
+//   FoodTypes({
+//     required this.name,
+//     required this.item,
+//   });
+// }
+
+class Menu {
   String name;
   int price;
   bool inStock;
 
-  MenuCategoryItem({
+  Menu({
     required this.name,
     required this.price,
     required this.inStock,
   });
 
-  factory MenuCategoryItem.fromJson(dynamic json) {
-    return MenuCategoryItem(
+  factory Menu.fromJson(dynamic json) {
+    return Menu(
       name: json['name'] as String,
       price: json['price'] as int,
       inStock: json['instock'] as bool,
@@ -18,19 +40,18 @@ class MenuCategoryItem {
   }
 }
 
-class MenuCategory {
+class FoodType {
   String name;
-  List<MenuCategoryItem> items;
+  List<Menu> items;
 
-  MenuCategory({
+  FoodType({
     required this.name,
     required this.items,
   });
 
-  factory MenuCategory.fromJson(dynamic json, {required String name}) {
+  factory FoodType.fromJson(dynamic json, {required String name}) {
     var temp = json[name] as List;
-    List<MenuCategoryItem> items =
-        temp.map((e) => MenuCategoryItem.fromJson(e)).toList();
-    return MenuCategory(name: name, items: items);
+    List<Menu> items = temp.map((e) => Menu.fromJson(e)).toList();
+    return FoodType(name: name, items: items);
   }
 }
