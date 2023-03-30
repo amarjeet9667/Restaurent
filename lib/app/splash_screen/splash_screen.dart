@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
         color: white,
         child: Center(
           child: Image.asset(
-            "assets/loader.gif",
+            "assets/food.gif",
             fit: BoxFit.cover,
           ),
         ),
