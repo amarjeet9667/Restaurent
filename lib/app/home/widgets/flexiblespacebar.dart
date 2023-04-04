@@ -12,9 +12,10 @@ class CustomFlexibleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
       background: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 95),
+        margin: const EdgeInsets.only(top: 45),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -33,7 +34,6 @@ class CustomFlexibleBar extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 5),
             Container(
               height: 50,
               width: MediaQuery.of(context).size.width,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurent_test1/app/common_colors/common_button.dart';
 import 'package:restaurent_test1/app/home/model/menu.dart';
 
 import '../../common_colors/colors.dart';
@@ -8,6 +9,7 @@ class NorthIndian extends StatefulWidget {
   final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
   final List<FoodType> categories;
 
   const NorthIndian({
@@ -16,6 +18,7 @@ class NorthIndian extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
   });
 
   @override
@@ -46,7 +49,7 @@ class _NorthIndianState extends State<NorthIndian> {
                     "North Indian",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -84,7 +87,7 @@ class _NorthIndianState extends State<NorthIndian> {
                                     northIndianNames[index],
                                     style: const TextStyle(
                                         color: black,
-                                        fontSize: 15,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -100,61 +103,12 @@ class _NorthIndianState extends State<NorthIndian> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),
@@ -212,7 +166,7 @@ class _PunjabiState extends State<Punjabi> {
                     "Punjabi",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -254,9 +208,11 @@ class _PunjabiState extends State<Punjabi> {
                                   ),
                                   Text(
                                     punjabiName[index],
+                                    textAlign: TextAlign.justify,
+                                    maxLines: 2,
                                     style: const TextStyle(
                                         color: black,
-                                        fontSize: 18,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -268,61 +224,12 @@ class _PunjabiState extends State<Punjabi> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),
@@ -380,7 +287,7 @@ class _ChineseState extends State<Chinese> {
                     "Chinese",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -424,7 +331,7 @@ class _ChineseState extends State<Chinese> {
                                     chineseName[index],
                                     style: const TextStyle(
                                         color: black,
-                                        fontSize: 18,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -436,61 +343,12 @@ class _ChineseState extends State<Chinese> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),
@@ -547,7 +405,7 @@ class _ContinentalState extends State<Continental> {
                     "Continental",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -591,7 +449,7 @@ class _ContinentalState extends State<Continental> {
                                     continentalName[index],
                                     style: const TextStyle(
                                         color: black,
-                                        fontSize: 18,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -603,61 +461,12 @@ class _ContinentalState extends State<Continental> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),
@@ -713,7 +522,7 @@ class _MexicanState extends State<Mexican> {
                     "Mexican",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -751,7 +560,7 @@ class _MexicanState extends State<Mexican> {
                                     mexicanName[index],
                                     style: const TextStyle(
                                         color: black,
-                                        fontSize: 18,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
@@ -766,61 +575,12 @@ class _MexicanState extends State<Mexican> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),
@@ -877,7 +637,7 @@ class _MughlaiState extends State<Mughlai> {
                     "Mughlai",
                     style: TextStyle(
                       color: green,
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -918,7 +678,7 @@ class _MughlaiState extends State<Mughlai> {
                                       mughlaiName[index],
                                       style: const TextStyle(
                                           color: black,
-                                          fontSize: 18,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
@@ -931,61 +691,12 @@ class _MughlaiState extends State<Mughlai> {
                                   ],
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    onTap = !onTap;
-                                  });
-                                },
-                                child: onTap
-                                    ? Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.remove,
-                                                color: white,
-                                              ),
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: const Icon(
-                                                Icons.add,
-                                                color: white,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 40,
-                                        width: 100,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: green.withOpacity(0.4),
-                                        ),
-                                        child: const Center(
-                                          child: Text(
-                                            "Add",
-                                            style: TextStyle(
-                                                color: white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
+                              CustomInkWellButton(
+                                onPressed: () {},
+                                label: "Add",
+                                icon: Icons.add,
+                                backgroundColor: green,
+                                textColor: white,
                               ),
                             ],
                           ),

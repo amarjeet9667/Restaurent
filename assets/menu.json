@@ -1,264 +1,327 @@
 {
     "North Indian": [
       {
-        "name": "Halwa",
+        "name": "Chole Bhature",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://c.ndtvimg.com/2019-11/uutrggs_chole-bhature_625x300_26_November_19.jpg"
       },
       {
-        "name": "ABC",
-        "price": 934,
-        "instock": false
+        "name": "Dal Makhani",
+        "price": 120,
+        "instock": false,
+        "image": "https://thumbs.dreamstime.com/b/dal-makhani-dark-background-traditional-indian-cuisine-puree-dish-urad-beans-red-butter-spices-cream-156960449.jpg"
       },
       {
-        "name": "OTR",
-        "price": 945,
-        "instock": true
+        "name": "Kadhi Chawal.",
+        "price": 90,
+        "instock": true,
+        "image": "https://www.indianfoodforever.com/iffwd/wp-content/uploads/kadhi-chawal-punjabi-style.jpg"
       },
       {
-        "name": "SLG",
-        "price": 343,
-        "instock": true
+        "name": "Paratha",
+        "price": 100,
+        "instock": true,
+        "image": "https://www.cookshideout.com/wp-content/uploads/2015/12/Navratan-Paratha-FI.jpg"
       },
       {
-        "name": "KGN",
-        "price": 342,
-        "instock": true
+        "name": "Kadhai Paneer",
+        "price": 150,
+        "instock": true,
+        "image": "https://www.geetakiduniya.com/wp-content/uploads/2020/08/Kadai-Paneer.jpg"
       },
       {
-        "name": "GDS",
-        "price": 234,
-        "instock": true
+        "name": "Butter Chicken",
+        "price": 300,
+        "instock": true,
+        "image": "https://masalaandchai.com/wp-content/uploads/2022/03/Butter-Chicken-500x500.jpg"
       },
       {
-        "name": "KNL",
-        "price": 934,
-        "instock": true
+        "name": "Rogan Josh",
+        "price": 370,
+        "instock": true,
+        "image": "https://www.recipetineats.com/wp-content/uploads/2020/02/Rogan-Josh_5.jpg"
       },
       {
-        "name": "GLM",
-        "price": 320,
-        "instock": true
+        "name": "Stuffed Bati",
+        "price": 120,
+        "instock": true,
+        "image": "http://nishamadhulika.com/images/stuffed-bati-recipe.jpg"
       },
       {
-        "name": "DKF",
+        "name": "Chicken Dum Biryani",
         "price": 394,
-        "instock": false
+        "instock": false,
+        "image": "https://www.currytrail.in/wp-content/uploads/2021/07/Chicken-dum-biryani-Featured-Image-1200-x-1200-.jpg"
       },
       {
-        "name": "VFS",
-        "price": 854,
-        "instock": true
+        "name": "Aloo Samosa",
+        "price": 60,
+        "instock": true,
+        "image": "https://static.toiimg.com/thumb/61050397.cms?imgsize=246859&width=800&height=800"
       }
     ],
     "Punjabi": [
       {
-        "name": "NA",
+        "name": "Sarson Ka Saag Aur Makki Ki Roti",
         "price": 124,
-        "instock": true
+        "instock": true,
+        "image": "https://s3-ap-south-1.amazonaws.com/betterbutterbucket-silver/neeru-gupta220171015145256075.jpeg"
       },
       {
-        "name": "DS",
-        "price": 953,
-        "instock": true
+        "name": "Tandoori Chicken",
+        "price": 253,
+        "instock": true,
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Tandoori_chicken_laccha_piyaz1_%2836886283595%29.jpg/1200px-Tandoori_chicken_laccha_piyaz1_%2836886283595%29.jpg"
       },
       {
-        "name": "HF",
+        "name": "Masala Channa",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://cookieandkate.com/images/2020/03/vegan-chana-masala-recipe-2.jpg"
       },
       {
-        "name": "FJ",
-        "price": 583,
-        "instock": true
+        "name": "Dal Makhani",
+        "price": 183,
+        "instock": true,
+        "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2015/01/dal-makhani-recipe-1-500x375.jpg"
       },
       {
-        "name": "LS",
-        "price": 945,
-        "instock": false
+        "name": "Machchli Amritsari",
+        "price": 200,
+        "instock": false,
+        "image": "https://www.archanaskitchen.com/images/archanaskitchen/1-Author/ruby_pathak-yahoo.com/Amritsari_Fish_Gravy.jpg"
       },
       {
-        "name": "TR",
-        "price": 394,
-        "instock": true
+        "name": "Dhaba Dal",
+        "price": 110,
+        "instock": true,
+        "image": "https://www.shanazrafiq.com/wp-content/uploads/2016/11/Dhaba-Style-Dal-tadka.jpg"
       },
       {
-        "name": "PD",
-        "price": 35,
-        "instock": true
+        "name": "Paneer Tikka",
+        "price": 135,
+        "instock": true,
+        "image": "https://www.carveyourcraving.com/wp-content/uploads/2021/10/paneer-tikka-skewers.jpg"
       },
       {
-        "name": "AL",
-        "price": 125,
-        "instock": true
+        "name": "Murgh Malaiwala",
+        "price": 225,
+        "instock": true,
+        "image": "https://img-global.cpcdn.com/recipes/2104c1b2c8222b15/1200x630cq70/photo.jpg"
       },
       {
-        "name": "TK",
+        "name": "Punjabi Kadhi Pakodi",
         "price": 129,
-        "instock": true
+        "instock": true,
+        "image": "https://www.vegrecipesofindia.com/wp-content/uploads/2012/01/punjabi-kadhi-pakora-recipe-1.jpg"
       },
       {
-        "name": "PG",
-        "price": 294,
-        "instock": true
+        "name": "Amritsari Kulcha",
+        "price": 100,
+        "instock": true,
+        "image":"https://www.cookingcarnival.com/wp-content/uploads/2016/02/Amritsari-Kulcha-2.jpg"
       }
     ],
     "Chinese": [
       {
-        "name": "A",
-        "price": 294,
-        "instock": true
+        "name": "Chow Mein",
+        "price": 160,
+        "instock": true,
+        "image": "https://natashaskitchen.com/wp-content/uploads/2020/03/Chicken-Chow-Mein-4-500x500.jpg"
       },
       {
-        "name": "B",
+        "name": "Dumplings",
         "price": 125,
-        "instock": true
+        "instock": true,
+        "image": "https://redhousespice.com/wp-content/uploads/2021/02/uncooked-dumplings-on-a-tray-scaled.jpeg"
       },
       {
-        "name": "C",
+        "name": "Kung Pao Chicken",
         "price": 256,
-        "instock": true
+        "instock": true,
+        "image": "https://www.allrecipes.com/thmb/gfiCEfmX4dpgde2EWVAvOO7d5Qw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/290890_original-f425d458ea2b4cec8d4a855ce6929707.jpg"
       },
       {
-        "name": "D",
+        "name": "Ma Po Tofu",
+        "price": 240,
+        "instock": true,
+        "image": "https://www.cookwithmanali.com/wp-content/uploads/2021/03/Vegan-Mapo-Tofu-500x500.jpg"
+      },
+      {
+        "name": "Peking Duck",
+        "price": 200,
+        "instock": true,
+        "image": "https://allasiarecipes.com/wp-content/uploads/2020/07/Peking-duck.jpg"
+      },
+      {
+        "name": "Wonton Soup",
+        "price": 430,
+        "instock": true,
+        "image": "https://iamhomesteader.com/wp-content/uploads/2022/03/wonton-soup-1.jpg"
+      },
+      {
+        "name": "Scallion Pancakes",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://omnivorescookbook.com/wp-content/uploads/2020/08/200730_Scallion-Pancakes_550.jpg"
       },
       {
-        "name": "E",
+        "name": "Char Siu",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://allwaysdelicious.com/wp-content/uploads/2020/03/char-siu-vert-1.jpg"
       },
       {
-        "name": "F",
-        "price": 530,
-        "instock": true
-      },
-      {
-        "name": "G",
-        "price": 100,
-        "instock": true
-      },
-      {
-        "name": "H",
-        "price": 100,
-        "instock": true
-      },
-      {
-        "name": "I",
+        "name": "Fried Rice",
         "price": 395,
-        "instock": true
+        "instock": true,
+        "image": "https://recipesofhome.com/wp-content/uploads/2020/06/veg-fried-rice-recipe.jpg"
       }
     ],
     "Continental": [
       {
-        "name": "J",
+        "name": "Asparagus Bruschetta",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "http://assets.kraftfoods.com/recipe_images/opendeploy/166939_640x428.jpg"
       },
       {
-        "name": "K",
+        "name": "Aubergine Au Gratin",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://im.indiatimes.in/facebook/2014/Dec/1584114_1437742743.jpg"
       },
       {
-        "name": "L",
+        "name": "Baked Kidney Beans",
         "price": 125,
-        "instock": false
+        "instock": false,
+        "image": "https://www.thecookierookie.com/wp-content/uploads/2018/10/white-beans-tomatoes-garlic-4-of-6.jpg"
       },
       {
-        "name": "M",
+        "name": "Baked Noodles with Spinach",
         "price": 530,
-        "instock": true
+        "instock": true,
+        "image": "https://cdn.apartmenttherapy.info/image/upload/v1558443934/k/archive/ee26287b43c776aa55c6e6062bc7298bd32cafba.jpg"
       },
       {
-        "name": "N",
+        "name": "Baked Pesto Pasta",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://www.everydayhealthyrecipes.com/wp-content/uploads/2018/01/pesto-chicken-pasta-bake-1.jpg"
       },
       {
-        "name": "O",
+        "name": "Baked Rice with Corn Curry",
         "price": 395,
-        "instock": true
+        "instock": true,
+        "image": "https://www.spiceupthecurry.com/wp-content/uploads/2016/03/corn-rice-recipe-9-500x500.jpg"
       },
       {
-        "name": "P",
+        "name": "Baked Spaghetti",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://cdn.tarladalal.com/members/9306/big/big_baked_spaghetti_with_cheese_balls_in_spinach_sauce_(_baked_recipe)-8112.jpg"
       },
       {
-        "name": "Q",
+        "name": "Baked Spinach Pancakes",
         "price": 400,
-        "instock": true
+        "instock": true,
+        "image": "https://ww2.kqed.org/app/uploads/sites/24/2011/05/2011_05_spinach_cheddar_pancakes-12.jpg"
       },
       {
-        "name": "R",
-        "price": 100,
-        "instock": true
-      },
-      {
-        "name": "S",
-        "price": 256,
-        "instock": true
+        "name": "Baked Spinach Pancakes",
+        "price": 300,
+        "instock": true,
+        "image": "https://ww2.kqed.org/app/uploads/sites/24/2011/05/2011_05_spinach_cheddar_pancakes-12.jpg"
       }
     ],
     "Mexican": [
       {
-        "name": "T",
+        "name": "Chilaquiles",
         "price": 100,
-        "instock": false
+        "instock": false,
+        "image":"https://keviniscooking.com/wp-content/uploads/2021/12/Chilaquiles-Verdes-square.jpg"
       },
       {
-        "name": "U",
+        "name": "Pozole",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://serenetrail.com/wp-content/uploads/2022/12/Up-close-view-of-vegan-pot-roast.jpg"
       },
       {
-        "name": "V",
+        "name": "Tacos al pastor",
         "price": 395,
-        "instock": true
+        "instock": true,
+        "image": "https://www.seriouseats.com/thmb/4kbwN13BlZnZ3EywrtG2AzCKuYs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20210712-tacos-al-pastor-melissa-hom-seriouseats-37-f72cdd02c9574bceb1eef1c8a23b76ed.jpg"
       },
       {
-        "name": "W",
+        "name": "Tostadas",
         "price": 100,
-        "instock": true
+        "instock": true,
+        "image": "https://guerrerotortillas.com/wp-content/uploads/2021/04/beef-tostadas.jpg"
       },
       {
-        "name": "X",
+        "name": "Chiles en nogada",
         "price": 100,
-        "instock": false
+        "instock": false,
+        "image": "https://inmamamaggieskitchen.com/wp-content/uploads/2021/09/Chiles-en-Nogada.jpg"
       },
       {
-        "name": "Y",
+        "name": "Elote",
         "price": 125,
-        "instock": true
+        "instock": true,
+        "image": "https://www.kitchengidget.com/wp-content/uploads/2019/05/Elote-Recipe-authentic-Mexican-4.jpg"
       },
       {
-        "name": "Z",
+        "name": "Enchiladas",
         "price": 530,
-        "instock": true
+        "instock": true,
+        "image": "https://www.eatingbirdfood.com/wp-content/uploads/2020/01/healthy-chicken-enchiladas-3.jpg"
       }
     ],
     "Mughlai": [
       {
-        "name": "ABCD",
+        "name": "Biryani",
         "price": 400,
-        "instock": true
+        "instock": true,
+        "image": "https://glebekitchen.com/wp-content/uploads/2019/12/chickenbiryanibowltop.jpg"
       },
       {
-        "name": "PROS",
+        "name": "Mutton/chicken chap",
         "price": 256,
-        "instock": true
+        "instock": true,
+        "image": "http://notoutofthebox.in/wp-content/uploads/2018/11/cc3.jpg"
       },
       {
-        "name": "NFDD",
+        "name": "Mutton/chicken pasinda",
         "price": 200,
-        "instock": true
+        "instock": true,
+        "image": "https://www.supergoldenbakes.com/wordpress/wp-content/uploads/2021/08/Lamb_Pasanda-2-683x1024.jpg"
       },
       {
-        "name": "LFKR",
+        "name": "Haleem",
         "price": 200,
-        "instock": true
+        "instock": true,
+        "image": "https://www.thedeliciouscrescent.com/wp-content/uploads/2020/08/Haleem-6-500x500.jpg"
+      },
+      {
+        "name": "Khichda",
+        "price": 200,
+        "instock": true,
+        "image": "https://www.archanaskitchen.com/images/archanaskitchen/1-Author/sneha-archanaskitchen.com/Bohri_Khichda_Recipe_.jpg"
+      },
+      {
+        "name": "Korma",
+        "price": 200,
+        "instock": true,
+        "image": "https://www.indianhealthyrecipes.com/wp-content/uploads/2022/08/chicken-korma.jpg"
+      },
+      {
+        "name": "Nihari",
+        "price": 200,
+        "instock": true,
+        "image": "http://cookwithnabeela.com/wp-content/uploads/2021/08/Mutton_Nihari_Web_2.jpg"
       }
+
     ]
   }

@@ -22,6 +22,7 @@ class _HomeViewState extends State<HomeView> {
   List<FoodType> categories1 = [];
   List<String> mealName = [];
   List<int> mealPrice = [];
+  List<String> mealImage = [];
   List<bool> mealInstock = [];
 
   @override
@@ -41,13 +42,16 @@ class _HomeViewState extends State<HomeView> {
         final name = data["name"];
         mealName.add(name);
 
+        final image = data["image"];
+        mealImage.add(image);
+
         final price = data["price"];
         mealPrice.add(price);
 
         final inStock = data["instock"];
         mealInstock.add(inStock);
 
-        return Menu(name: name, price: price, instock: inStock);
+        return Menu(name: name, price: price, instock: inStock, image: image);
       }).toList();
 
       final foodType = FoodType(name: category.toString(), items: items);
@@ -64,26 +68,28 @@ class _HomeViewState extends State<HomeView> {
       child: Scaffold(
         body: CustomScrollView(
           physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
           slivers: [
             SliverAppBar(
               backgroundColor: white,
-              automaticallyImplyLeading: false,
-              elevation: 0,
               expandedHeight: 260,
+              automaticallyImplyLeading: false,
               pinned: true,
               title: const CustomTitle(),
               flexibleSpace: const CustomFlexibleBar(),
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(0),
                 child: MyBottom(
-                    price: mealPrice, name: mealName, categories: categories),
+                  price: mealPrice,
+                  name: mealName,
+                  categories: categories,
+                ),
               ),
             ),
             CustomSliverToBox(
                 tabs: categories1,
                 price: mealPrice,
                 name: mealName,
+                image: mealImage,
                 categories: categories),
           ],
         ),
@@ -95,14 +101,17 @@ class _HomeViewState extends State<HomeView> {
 class CustomSliverToBox extends StatefulWidget {
   final List<FoodType> tabs;
   final List<String> name;
+  final List<String> image;
   final List<int> price;
   final List<FoodType> categories;
-  const CustomSliverToBox(
-      {super.key,
-      required this.tabs,
-      required this.price,
-      required this.name,
-      required this.categories});
+  const CustomSliverToBox({
+    super.key,
+    required this.tabs,
+    required this.price,
+    required this.name,
+    required this.categories,
+    required this.image,
+  });
 
   @override
   State<CustomSliverToBox> createState() => _CustomSliverToBoxState();
@@ -123,6 +132,7 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              image: widget.image,
             ),
           if (currentIndex == 0 || currentIndex == 2)
             Punjabi(
