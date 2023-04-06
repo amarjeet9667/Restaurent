@@ -28,33 +28,51 @@ class _MyBottomState extends State<MyBottom> {
     final currentIndex = myBottomState.currentIndex;
 
     return SizedBox(
-      height: 30,
-      child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          itemCount: widget.categories.length,
-          itemBuilder: (context, index) {
-            final name = widget.categories[index].name;
+      height: 40,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0),
+        child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: widget.categories.length,
+            itemBuilder: (context, index) {
+              final name = widget.categories[index].name;
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    myBottomState.updateIndex(index);
-                  });
-                },
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    color: currentIndex == index ? green : black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      myBottomState.updateIndex(index);
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 30, left: 5),
+                        child: Text(
+                          name,
+                          style: TextStyle(
+                            color: currentIndex == index ? green : black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      if (index != widget.categories.length - 1)
+                        const Icon(
+                          Icons.circle,
+                          size: 5,
+                          color: black,
+                        ),
+                    ],
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/common_colors/common_button.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/home/model/menu.dart';
+import 'package:restaurent_test1/app/home/provider/addbutton_provider.dart';
 
 import '../../common_colors/colors.dart';
 
@@ -10,6 +11,7 @@ class NorthIndian extends StatefulWidget {
   final List<String> name;
   final List<int> price;
   final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
 
   const NorthIndian({
@@ -19,6 +21,7 @@ class NorthIndian extends StatefulWidget {
     required this.price,
     required this.categories,
     required this.image,
+    required this.bools,
   });
 
   @override
@@ -37,15 +40,17 @@ class _NorthIndianState extends State<NorthIndian> {
           hideTile = !hideTile;
         });
       },
+      behavior: HitTestBehavior.opaque,
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "North Indian",
                     style: TextStyle(
                       color: green,
@@ -53,7 +58,9 @@ class _NorthIndianState extends State<NorthIndian> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(Icons.play_arrow, size: 15),
                 ],
               ),
               if (!hideTile)
@@ -103,13 +110,108 @@ class _NorthIndianState extends State<NorthIndian> {
                                   ),
                                 ],
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(northIndianNames[index])) {
+                                  quantity =
+                                      quantities[northIndianNames[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(northIndianNames[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            northIndianNames[
+                                                                index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            northIndianNames[
+                                                                index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          northIndianNames[
+                                                              index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],
@@ -125,10 +227,12 @@ class _NorthIndianState extends State<NorthIndian> {
 
 // This is Punjabi Tile.
 class Punjabi extends StatefulWidget {
+  final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
-  final List<FoodType> tabs;
 
   const Punjabi({
     super.key,
@@ -136,6 +240,8 @@ class Punjabi extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
+    required this.bools,
   });
 
   @override
@@ -155,14 +261,15 @@ class _PunjabiState extends State<Punjabi> {
         });
       },
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Punjabi",
                     style: TextStyle(
                       color: green,
@@ -170,7 +277,12 @@ class _PunjabiState extends State<Punjabi> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 15,
+                        )
                 ],
               ),
               if (!hideTile)
@@ -224,13 +336,104 @@ class _PunjabiState extends State<Punjabi> {
                                   ),
                                 ],
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(punjabiName[index])) {
+                                  quantity = quantities[punjabiName[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(punjabiName[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            punjabiName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            punjabiName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          punjabiName[index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],
@@ -247,10 +450,12 @@ class _PunjabiState extends State<Punjabi> {
 // This is Chinese Tile.
 
 class Chinese extends StatefulWidget {
+  final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
-  final List<FoodType> tabs;
 
   const Chinese({
     super.key,
@@ -258,6 +463,8 @@ class Chinese extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
+    required this.bools,
   });
 
   @override
@@ -276,14 +483,15 @@ class _ChineseState extends State<Chinese> {
         });
       },
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Chinese",
                     style: TextStyle(
                       color: green,
@@ -291,7 +499,12 @@ class _ChineseState extends State<Chinese> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 15,
+                        )
                 ],
               ),
               if (!hideTile)
@@ -343,13 +556,104 @@ class _ChineseState extends State<Chinese> {
                                   ),
                                 ],
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(chineseName[index])) {
+                                  quantity = quantities[chineseName[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(chineseName[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            chineseName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            chineseName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          chineseName[index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],
@@ -365,10 +669,12 @@ class _ChineseState extends State<Chinese> {
 // This is Continental Tile.
 
 class Continental extends StatefulWidget {
+  final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
-  final List<FoodType> tabs;
 
   const Continental({
     super.key,
@@ -376,6 +682,8 @@ class Continental extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
+    required this.bools,
   });
 
   @override
@@ -394,14 +702,15 @@ class _ContinentalState extends State<Continental> {
         });
       },
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Continental",
                     style: TextStyle(
                       color: green,
@@ -409,7 +718,12 @@ class _ContinentalState extends State<Continental> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 15,
+                        )
                 ],
               ),
               if (!hideTile)
@@ -461,13 +775,108 @@ class _ContinentalState extends State<Continental> {
                                   ),
                                 ],
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(continentalName[index])) {
+                                  quantity =
+                                      quantities[continentalName[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(continentalName[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            continentalName[
+                                                                index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            continentalName[
+                                                                index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          continentalName[
+                                                              index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],
@@ -482,10 +891,12 @@ class _ContinentalState extends State<Continental> {
 }
 
 class Mexican extends StatefulWidget {
+  final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
-  final List<FoodType> tabs;
 
   const Mexican({
     super.key,
@@ -493,6 +904,8 @@ class Mexican extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
+    required this.bools,
   });
 
   @override
@@ -511,14 +924,15 @@ class _MexicanState extends State<Mexican> {
         });
       },
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Mexican",
                     style: TextStyle(
                       color: green,
@@ -526,7 +940,12 @@ class _MexicanState extends State<Mexican> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 15,
+                        )
                 ],
               ),
               if (!hideTile)
@@ -575,13 +994,104 @@ class _MexicanState extends State<Mexican> {
                                   ),
                                 ],
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(mexicanName[index])) {
+                                  quantity = quantities[mexicanName[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(mexicanName[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            mexicanName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            mexicanName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          mexicanName[index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],
@@ -596,10 +1106,12 @@ class _MexicanState extends State<Mexican> {
 }
 
 class Mughlai extends StatefulWidget {
+  final List<FoodType> tabs;
   final List<String> name;
   final List<int> price;
+  final List<String> image;
+  final List<bool> bools;
   final List<FoodType> categories;
-  final List<FoodType> tabs;
 
   const Mughlai({
     super.key,
@@ -607,6 +1119,8 @@ class Mughlai extends StatefulWidget {
     required this.name,
     required this.price,
     required this.categories,
+    required this.image,
+    required this.bools,
   });
 
   @override
@@ -626,14 +1140,15 @@ class _MughlaiState extends State<Mughlai> {
         });
       },
       child: Card(
+        elevation: 0,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     "Mughlai",
                     style: TextStyle(
                       color: green,
@@ -641,7 +1156,12 @@ class _MughlaiState extends State<Mughlai> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.arrow_drop_down),
+                  !hideTile
+                      ? const Icon(Icons.arrow_drop_down)
+                      : const Icon(
+                          Icons.play_arrow,
+                          size: 15,
+                        )
                 ],
               ),
               if (!hideTile)
@@ -691,13 +1211,104 @@ class _MughlaiState extends State<Mughlai> {
                                   ],
                                 ),
                               ),
-                              CustomInkWellButton(
-                                onPressed: () {},
-                                label: "Add",
-                                icon: Icons.add,
-                                backgroundColor: green,
-                                textColor: white,
-                              ),
+                              Consumer<AddButtonProvider>(
+                                  builder: (context, value, _) {
+                                Map<String, int> quantities = value.quantity;
+                                late int quantity;
+                                if (quantities
+                                    .containsKey(mughlaiName[index])) {
+                                  quantity = quantities[mughlaiName[index]]!;
+                                } else {
+                                  quantity = 0;
+                                }
+                                return InkWell(
+                                  onTap: () {
+                                    if (quantity == 0 && widget.bools[index]) {
+                                      setState(() => quantity++);
+                                      Provider.of<AddButtonProvider>(context,
+                                              listen: false)
+                                          .addItems(mughlaiName[index],
+                                              widget.price[index]);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: quantity == 0
+                                          ? green.withOpacity(0.15)
+                                          : green,
+                                    ),
+                                    child: quantity == 0
+                                        ? const Center(
+                                            child: Text(
+                                              "ADD",
+                                              style: TextStyle(
+                                                color: green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  if (quantity > 1) {
+                                                    setState(() {
+                                                      quantity--;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .decreaseQuantity(
+                                                            mughlaiName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  } else {
+                                                    setState(() {
+                                                      quantity == 0;
+                                                    });
+                                                    Provider.of<AddButtonProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeItems(
+                                                            mughlaiName[index],
+                                                            widget
+                                                                .price[index]);
+                                                  }
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    quantity++;
+                                                  });
+                                                  Provider.of<AddButtonProvider>(
+                                                          context,
+                                                          listen: false)
+                                                      .increaseQuantity(
+                                                          mughlaiName[index],
+                                                          widget.price[index]);
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                );
+                              })
                             ],
                           ),
                         ],

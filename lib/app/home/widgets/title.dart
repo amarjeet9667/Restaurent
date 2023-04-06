@@ -9,29 +9,34 @@ class CustomTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Icon(
-          Icons.menu,
-          color: green,
-        ),
         Row(
-          children: const [
-            Icon(
-              Icons.location_on,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Icon(
+              Icons.menu,
               color: green,
             ),
-            Text(
-              "Gurugram, HR",
-              style: TextStyle(color: black, fontSize: 15),
+            Row(
+              children: const [
+                Icon(
+                  Icons.location_on,
+                  color: green,
+                ),
+                Text(
+                  "Gurugram, HR",
+                  style: TextStyle(color: black, fontSize: 15),
+                ),
+              ],
             ),
+            const Icon(
+              Icons.person,
+              color: green,
+            )
           ],
         ),
-        const Icon(
-          Icons.person,
-          color: green,
-        )
       ],
     );
   }

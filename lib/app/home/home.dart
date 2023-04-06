@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/common_colors/colors.dart';
 import 'package:restaurent_test1/app/home/component/component.dart';
 import 'package:restaurent_test1/app/home/model/menu.dart';
+import 'package:restaurent_test1/app/home/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/home/provider/bottom_provider.dart';
+import 'package:restaurent_test1/app/payment_screen/pament_view.dart';
 
 import '../../common_widget.dart';
 
@@ -65,33 +67,47 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => MyBottomState(),
-      child: Scaffold(
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              backgroundColor: white,
-              expandedHeight: 260,
-              automaticallyImplyLeading: false,
-              pinned: true,
-              title: const CustomTitle(),
-              flexibleSpace: const CustomFlexibleBar(),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(0),
-                child: MyBottom(
-                  price: mealPrice,
-                  name: mealName,
-                  categories: categories,
-                ),
+      child: WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                slivers: [
+                  SliverAppBar(
+                    backgroundColor: white,
+                    expandedHeight: 250,
+                    elevation: 0,
+                    automaticallyImplyLeading: false,
+                    collapsedHeight: kToolbarHeight + 50,
+                    pinned: true,
+                    title: const CustomTitle(),
+                    flexibleSpace: const CustomFlexibleBar(),
+                    bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(0),
+                      child: MyBottom(
+                        price: mealPrice,
+                        name: mealName,
+                        categories: categories,
+                      ),
+                    ),
+                  ),
+                  CustomSliverToBox(
+                    tabs: categories1,
+                    price: mealPrice,
+                    name: mealName,
+                    image: mealImage,
+                    bools: mealInstock,
+                    categories: categories,
+                  ),
+                ],
               ),
-            ),
-            CustomSliverToBox(
-                tabs: categories1,
-                price: mealPrice,
-                name: mealName,
-                image: mealImage,
-                categories: categories),
-          ],
+              payNow()
+            ],
+          ),
         ),
       ),
     );
@@ -103,6 +119,7 @@ class CustomSliverToBox extends StatefulWidget {
   final List<String> name;
   final List<String> image;
   final List<int> price;
+  final List<bool> bools;
   final List<FoodType> categories;
   const CustomSliverToBox({
     super.key,
@@ -111,6 +128,7 @@ class CustomSliverToBox extends StatefulWidget {
     required this.name,
     required this.categories,
     required this.image,
+    required this.bools,
   });
 
   @override
@@ -133,6 +151,7 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               price: widget.price,
               categories: widget.categories,
               image: widget.image,
+              bools: widget.bools,
             ),
           if (currentIndex == 0 || currentIndex == 2)
             Punjabi(
@@ -140,6 +159,8 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              bools: widget.bools,
+              image: widget.image,
             ),
           if (currentIndex == 0 || currentIndex == 3)
             Chinese(
@@ -147,6 +168,8 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              bools: widget.bools,
+              image: widget.image,
             ),
           if (currentIndex == 0 || currentIndex == 4)
             Continental(
@@ -154,6 +177,8 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              bools: widget.bools,
+              image: widget.image,
             ),
           if (currentIndex == 0 || currentIndex == 5)
             Mexican(
@@ -161,6 +186,8 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              bools: widget.bools,
+              image: widget.image,
             ),
           if (currentIndex == 0 || currentIndex == 6)
             Mughlai(
@@ -168,9 +195,94 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
               name: widget.name,
               price: widget.price,
               categories: widget.categories,
+              bools: widget.bools,
+              image: widget.image,
             ),
         ],
       ),
     );
   }
+}
+
+Consumer<AddButtonProvider> payNow() {
+  return Consumer(
+    builder: (context, value, _) => Card(
+      margin: const EdgeInsets.only(top: 10),
+      elevation: 40,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 1000),
+        curve: Curves.bounceOut,
+        child: !(value.cartAmount > 0)
+            ? const Text("")
+            : Container(
+                height: 60,
+                width: 340,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 15 + MediaQuery.of(context).viewInsets.bottom,
+                  vertical: 12.5,
+                ),
+                padding: const EdgeInsets.only(left: 20, right: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(35),
+                  color: green.withOpacity(1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "${value.cart.length} ITEM",
+                            style: const TextStyle(
+                              color: white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          Text(
+                            "\u20B9 ${value.cartAmount}  plus taxes",
+                            style: const TextStyle(color: white),
+                          )
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      style: const ButtonStyle(
+                        overlayColor: MaterialStatePropertyAll(trans),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const PaymentView()));
+                      },
+                      child: Row(
+                        children: const [
+                          Text(
+                            "PAY NOW",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                              color: white,
+                            ),
+                          ),
+                          SizedBox(width: 2.5),
+                          Icon(
+                            Icons.play_arrow,
+                            color: white,
+                            size: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    ),
+  );
 }

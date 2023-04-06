@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurent_test1/app/common_colors/colors.dart';
+import 'package:restaurent_test1/app/home/home.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({super.key});
@@ -11,12 +12,14 @@ class PaymentView extends StatefulWidget {
 class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: white.withOpacity(0.9),
       appBar: AppBar(
+        backgroundColor: white.withOpacity(0.12),
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: white,
         title: const Center(
           child: Text(
             "Tutor Bin Canteen",
@@ -26,30 +29,123 @@ class _PaymentViewState extends State<PaymentView> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         child: Column(
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: 40,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.access_time_outlined,
-                      color: green,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              height: 40,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: white),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.access_time_outlined,
+                    color: green,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    "Delivery in 25 mins",
+                    style: TextStyle(color: black, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: height * 0.4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: white,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: Row(
+                      children: const [
+                        Icon(Icons.paste, color: green),
+                        SizedBox(width: 10),
+                        Text(
+                          "Your Order",
+                          style: TextStyle(
+                              color: black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "  Delivery in 25 mins",
-                      style:
-                          TextStyle(color: black, fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: 2,
+                        itemBuilder: (context, index) {
+                          return Container();
+                        }),
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    height: 40,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Add more items ?",
+                          style: TextStyle(color: black),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (builder) => const HomeView()));
+                          },
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: green,
+                            size: 18,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              height: height * 0.2,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: white,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                        "SubTotal",
+                        style: TextStyle(
+                            color: black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "\u20B9 100",
+                        style: TextStyle(
+                            color: black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],

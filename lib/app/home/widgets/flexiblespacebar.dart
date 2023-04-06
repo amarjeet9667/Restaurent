@@ -12,8 +12,8 @@ class CustomFlexibleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlexibleSpaceBar(
       background: Container(
-        margin: const EdgeInsets.only(top: 45),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+        margin: const EdgeInsets.only(top: 35),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 70),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +30,7 @@ class CustomFlexibleBar extends StatelessWidget {
               "Find your food",
               style: TextStyle(
                 color: black,
-                fontSize: 20,
+                fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             ),
