@@ -65,13 +65,15 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
     return ChangeNotifierProvider(
       create: (_) => MyBottomState(),
       child: WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
+          drawer: CustomDrawer(height: height),
           body: Stack(
-            alignment: Alignment.bottomCenter,
             children: [
               CustomScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -79,10 +81,10 @@ class _HomeViewState extends State<HomeView> {
                 slivers: [
                   SliverAppBar(
                     backgroundColor: white,
-                    expandedHeight: 250,
+                    expandedHeight: height * 0.3,
                     elevation: 0,
                     automaticallyImplyLeading: false,
-                    collapsedHeight: kToolbarHeight + 50,
+                    collapsedHeight: kToolbarHeight + 35,
                     pinned: true,
                     title: const CustomTitle(),
                     flexibleSpace: const CustomFlexibleBar(),
@@ -206,83 +208,89 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
 
 Consumer<AddButtonProvider> payNow() {
   return Consumer(
-    builder: (context, value, _) => Card(
-      margin: const EdgeInsets.only(top: 10),
-      elevation: 40,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 1000),
-        curve: Curves.bounceOut,
-        child: !(value.cartAmount > 0)
-            ? const Text("")
-            : Container(
-                height: 60,
-                width: 340,
-                margin: EdgeInsets.symmetric(
-                  horizontal: 15 + MediaQuery.of(context).viewInsets.bottom,
-                  vertical: 12.5,
-                ),
-                padding: const EdgeInsets.only(left: 20, right: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(35),
-                  color: green.withOpacity(1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "${value.cart.length} ITEM",
-                            style: const TextStyle(
-                              color: white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              letterSpacing: 2,
-                            ),
-                          ),
-                          Text(
-                            "\u20B9 ${value.cartAmount}  plus taxes",
-                            style: const TextStyle(color: white),
-                          )
-                        ],
-                      ),
+    builder: (context, value, _) => Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        const SizedBox(height: 10),
+        Card(
+          margin: const EdgeInsets.only(top: 10),
+          elevation: 40,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.bounceOut,
+            child: !(value.cartAmount > 0)
+                ? const Text("")
+                : Container(
+                    height: 60,
+                    width: 340,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 15 + MediaQuery.of(context).viewInsets.bottom,
+                      vertical: 12.5,
                     ),
-                    TextButton(
-                      style: const ButtonStyle(
-                        overlayColor: MaterialStatePropertyAll(trans),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const PaymentView()));
-                      },
-                      child: Row(
-                        children: const [
-                          Text(
-                            "PAY NOW",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1,
-                              color: white,
-                            ),
-                          ),
-                          SizedBox(width: 2.5),
-                          Icon(
-                            Icons.play_arrow,
-                            color: white,
-                            size: 20,
-                          )
-                        ],
-                      ),
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(35),
+                      color: green.withOpacity(1),
                     ),
-                  ],
-                ),
-              ),
-      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${value.cart.length} ITEM",
+                                style: const TextStyle(
+                                  color: white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                              Text(
+                                "\u20B9 ${value.cartAmount}  plus taxes",
+                                style: const TextStyle(color: white),
+                              )
+                            ],
+                          ),
+                        ),
+                        TextButton(
+                          style: const ButtonStyle(
+                            overlayColor: MaterialStatePropertyAll(trans),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const PaymentView()));
+                          },
+                          child: Row(
+                            children: const [
+                              Text(
+                                "PAY NOW",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1,
+                                  color: white,
+                                ),
+                              ),
+                              SizedBox(width: 2.5),
+                              Icon(
+                                Icons.play_arrow,
+                                color: white,
+                                size: 20,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
+        ),
+      ],
     ),
   );
 }

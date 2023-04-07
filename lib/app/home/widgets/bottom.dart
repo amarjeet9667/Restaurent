@@ -28,9 +28,9 @@ class _MyBottomState extends State<MyBottom> {
     final currentIndex = myBottomState.currentIndex;
 
     return SizedBox(
-      height: 40,
+      height: 50,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
@@ -40,7 +40,7 @@ class _MyBottomState extends State<MyBottom> {
               final name = widget.categories[index].name;
 
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 11),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -50,17 +50,16 @@ class _MyBottomState extends State<MyBottom> {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 30, left: 5),
+                        padding: const EdgeInsets.only(right: 22),
                         child: Text(
                           name,
                           style: TextStyle(
                             color: currentIndex == index ? green : black,
-                            fontSize: 15,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 5),
                       if (index != widget.categories.length - 1)
                         const Icon(
                           Icons.circle,

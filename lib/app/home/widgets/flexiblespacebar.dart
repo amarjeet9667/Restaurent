@@ -13,7 +13,7 @@ class CustomFlexibleBar extends StatelessWidget {
     return FlexibleSpaceBar(
       background: Container(
         margin: const EdgeInsets.only(top: 35),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 70),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 67),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,6 +34,7 @@ class CustomFlexibleBar extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 5),
             Container(
               height: 50,
               width: MediaQuery.of(context).size.width,

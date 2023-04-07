@@ -34,6 +34,7 @@ class _NorthIndianState extends State<NorthIndian> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -97,13 +98,19 @@ class _NorthIndianState extends State<NorthIndian> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    "\u20B9 ${widget.price[index]}",
-                                    style: const TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5),
+                                  widget.bools[index]
+                                      ? Text(
+                                          "\u20B9 ${widget.price[index]}",
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "*Out of stock",
+                                          style: TextStyle(color: red),
+                                        ),
                                   const Divider(
                                     thickness: 2,
                                     color: black,
@@ -127,7 +134,7 @@ class _NorthIndianState extends State<NorthIndian> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(northIndianNames[index],
+                                          .addItem(northIndianNames[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -177,7 +184,7 @@ class _NorthIndianState extends State<NorthIndian> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             northIndianNames[
                                                                 index],
                                                             widget
@@ -188,6 +195,11 @@ class _NorthIndianState extends State<NorthIndian> {
                                                   Icons.remove,
                                                   color: white,
                                                 ),
+                                              ),
+                                              Text(
+                                                "$quantity",
+                                                style: const TextStyle(
+                                                    color: white),
                                               ),
                                               InkWell(
                                                 onTap: () {
@@ -327,13 +339,19 @@ class _PunjabiState extends State<Punjabi> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    "\u20B9 ${widget.price[index]}",
-                                    style: const TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5),
+                                  widget.bools[index]
+                                      ? Text(
+                                          "\u20B9 ${widget.price[index]}",
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "*Out of stock",
+                                          style: TextStyle(color: red),
+                                        ),
                                 ],
                               ),
                               Consumer<AddButtonProvider>(
@@ -352,7 +370,7 @@ class _PunjabiState extends State<Punjabi> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(punjabiName[index],
+                                          .addItem(punjabiName[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -401,7 +419,7 @@ class _PunjabiState extends State<Punjabi> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             punjabiName[index],
                                                             widget
                                                                 .price[index]);
@@ -547,13 +565,19 @@ class _ChineseState extends State<Chinese> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    "\u20B9 ${widget.price[index]}",
-                                    style: const TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5),
+                                  widget.bools[index]
+                                      ? Text(
+                                          "\u20B9 ${widget.price[index]}",
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "*Out of stock",
+                                          style: TextStyle(color: red),
+                                        ),
                                 ],
                               ),
                               Consumer<AddButtonProvider>(
@@ -572,7 +596,7 @@ class _ChineseState extends State<Chinese> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(chineseName[index],
+                                          .addItem(chineseName[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -621,7 +645,7 @@ class _ChineseState extends State<Chinese> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             chineseName[index],
                                                             widget
                                                                 .price[index]);
@@ -766,13 +790,19 @@ class _ContinentalState extends State<Continental> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    "\u20B9 ${widget.price[index]}",
-                                    style: const TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5),
+                                  widget.bools[index]
+                                      ? Text(
+                                          "\u20B9 ${widget.price[index]}",
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "*Out of stock",
+                                          style: TextStyle(color: red),
+                                        ),
                                 ],
                               ),
                               Consumer<AddButtonProvider>(
@@ -792,7 +822,7 @@ class _ContinentalState extends State<Continental> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(continentalName[index],
+                                          .addItem(continentalName[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -842,7 +872,7 @@ class _ContinentalState extends State<Continental> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             continentalName[
                                                                 index],
                                                             widget
@@ -982,13 +1012,19 @@ class _MexicanState extends State<Mexican> {
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    "\u20B9 ${widget.price[index]}",
-                                    style: const TextStyle(
-                                      color: black,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  const SizedBox(height: 5),
+                                  widget.bools[index]
+                                      ? Text(
+                                          "\u20B9 ${widget.price[index]}",
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      : const Text(
+                                          "*Out of stock",
+                                          style: TextStyle(color: red),
+                                        ),
                                   const Divider(
                                     thickness: 1,
                                   ),
@@ -1010,7 +1046,7 @@ class _MexicanState extends State<Mexican> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(mexicanName[index],
+                                          .addItem(mexicanName[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -1059,7 +1095,7 @@ class _MexicanState extends State<Mexican> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             mexicanName[index],
                                                             widget
                                                                 .price[index]);
@@ -1201,13 +1237,19 @@ class _MughlaiState extends State<Mughlai> {
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      "\u20B9 ${widget.price[index]}",
-                                      style: const TextStyle(
-                                        color: black,
-                                        fontSize: 15,
-                                      ),
-                                    ),
+                                    const SizedBox(height: 5),
+                                    widget.bools[index]
+                                        ? Text(
+                                            "\u20B9 ${widget.price[index]}",
+                                            style: const TextStyle(
+                                              color: black,
+                                              fontSize: 15,
+                                            ),
+                                          )
+                                        : const Text(
+                                            "*Out of stock",
+                                            style: TextStyle(color: red),
+                                          ),
                                   ],
                                 ),
                               ),
@@ -1227,7 +1269,7 @@ class _MughlaiState extends State<Mughlai> {
                                       setState(() => quantity++);
                                       Provider.of<AddButtonProvider>(context,
                                               listen: false)
-                                          .addItems(mughlaiName[index],
+                                          .addItem(mughlaiName[index],
                                               widget.price[index]);
                                     }
                                   },
@@ -1276,7 +1318,7 @@ class _MughlaiState extends State<Mughlai> {
                                                     Provider.of<AddButtonProvider>(
                                                             context,
                                                             listen: false)
-                                                        .removeItems(
+                                                        .removeItem(
                                                             mughlaiName[index],
                                                             widget
                                                                 .price[index]);

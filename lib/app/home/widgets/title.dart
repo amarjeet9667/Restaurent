@@ -15,9 +15,12 @@ class CustomTitle extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(
-              Icons.menu,
-              color: green,
+            InkWell(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: const Icon(
+                Icons.menu,
+                color: green,
+              ),
             ),
             Row(
               children: const [
