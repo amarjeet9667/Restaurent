@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent_test1/app/home/model/menu.dart';
+import 'package:restaurent_test1/app/model/menu.dart';
 
-import '../../common_colors/colors.dart';
-import '../provider/bottom_provider.dart';
+import '../../util/colors.dart';
+import '../../provider/bottom_provider.dart';
 
 class MyBottom extends StatefulWidget {
   final List<String> name;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common_colors/colors.dart';
+import '../../util/colors.dart';
 
 class CustomTitle extends StatelessWidget {
   const CustomTitle({

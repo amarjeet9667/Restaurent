@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/common_colors/colors.dart';
+import 'package:restaurent_test1/app/util/colors.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({

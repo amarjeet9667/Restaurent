@@ -3,14 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent_test1/app/common_colors/colors.dart';
-import 'package:restaurent_test1/app/home/component/component.dart';
-import 'package:restaurent_test1/app/home/model/menu.dart';
-import 'package:restaurent_test1/app/home/provider/addbutton_provider.dart';
-import 'package:restaurent_test1/app/home/provider/bottom_provider.dart';
-import 'package:restaurent_test1/app/payment_screen/pament_view.dart';
-
-import '../../common_widget.dart';
+import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/view/component.dart';
+import 'package:restaurent_test1/app/model/menu.dart';
+import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
+import 'package:restaurent_test1/app/provider/bottom_provider.dart';
+import 'package:restaurent_test1/app/view/screens/pament_view.dart';
+import 'package:restaurent_test1/app/view/widgets/bottom.dart';
+import 'package:restaurent_test1/app/view/widgets/drawer.dart';
+import 'package:restaurent_test1/app/view/widgets/flexiblespacebar.dart';
+import 'package:restaurent_test1/app/view/widgets/title.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -146,60 +148,13 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
     return SliverToBoxAdapter(
       child: Column(
         children: [
-          if (currentIndex == 0 || currentIndex == 1)
-            NorthIndian(
+          CombineCategory(
               tabs: widget.tabs,
               name: widget.name,
               price: widget.price,
-              categories: widget.categories,
               image: widget.image,
               bools: widget.bools,
-            ),
-          if (currentIndex == 0 || currentIndex == 2)
-            Punjabi(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              categories: widget.categories,
-              bools: widget.bools,
-              image: widget.image,
-            ),
-          if (currentIndex == 0 || currentIndex == 3)
-            Chinese(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              categories: widget.categories,
-              bools: widget.bools,
-              image: widget.image,
-            ),
-          if (currentIndex == 0 || currentIndex == 4)
-            Continental(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              categories: widget.categories,
-              bools: widget.bools,
-              image: widget.image,
-            ),
-          if (currentIndex == 0 || currentIndex == 5)
-            Mexican(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              categories: widget.categories,
-              bools: widget.bools,
-              image: widget.image,
-            ),
-          if (currentIndex == 0 || currentIndex == 6)
-            Mughlai(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              categories: widget.categories,
-              bools: widget.bools,
-              image: widget.image,
-            ),
+              categories: widget.categories),
         ],
       ),
     );

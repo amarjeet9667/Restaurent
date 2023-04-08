@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent_test1/app/common_colors/colors.dart';
-import 'package:restaurent_test1/app/home/home.dart';
-import 'package:restaurent_test1/app/splash_screen/provider_splash.dart';
+import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/view/screens/home.dart';
+import 'package:restaurent_test1/app/view/screens/provider_splash.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/common_colors/colors.dart';
-import 'package:restaurent_test1/app/home/home.dart';
+import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/view/screens/home.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({super.key});
@@ -13,7 +13,6 @@ class _PaymentViewState extends State<PaymentView> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: white.withOpacity(0.9),
       appBar: AppBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../../common_colors/colors.dart';
+import '../../util/colors.dart';
 
 class CustomFlexibleBar extends StatelessWidget {
   const CustomFlexibleBar({

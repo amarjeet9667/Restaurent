@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent_test1/app/home/provider/addbutton_provider.dart';
-import 'package:restaurent_test1/app/home/provider/bottom_provider.dart';
-import 'package:restaurent_test1/app/splash_screen/splash_screen.dart';
+import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
+import 'package:restaurent_test1/app/provider/bottom_provider.dart';
+import 'package:restaurent_test1/app/view/screens/splash_screen.dart';
 
-import 'app/common_colors/colors.dart';
+import 'app/util/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
