@@ -197,7 +197,7 @@ Consumer<AddButtonProvider> payNow() {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "${value.cart.length} ITEM",
+                                " ${value.cart.length} ITEMS",
                                 style: const TextStyle(
                                   color: white,
                                   fontWeight: FontWeight.w600,
@@ -206,7 +206,7 @@ Consumer<AddButtonProvider> payNow() {
                                 ),
                               ),
                               Text(
-                                "\u20B9 ${value.cartAmount}  plus taxes",
+                                "\u20B9 ${value.cartAmount} plus taxes",
                                 style: const TextStyle(color: white),
                               )
                             ],

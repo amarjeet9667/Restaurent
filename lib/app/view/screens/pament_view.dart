@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/util/colors.dart';
 import 'package:restaurent_test1/app/view/screens/home.dart';
 
 class PaymentView extends StatefulWidget {
-  const PaymentView({super.key});
+  const PaymentView({
+    super.key,
+  });
 
   @override
   State<PaymentView> createState() => _PaymentViewState();
@@ -77,11 +83,56 @@ class _PaymentViewState extends State<PaymentView> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          return Container();
-                        }),
+                    child: Consumer<AddButtonProvider>(
+                      builder: (context, value, _) {
+                        return ListView.builder(
+                            itemCount: value.cart.length,
+                            itemBuilder: (context, index) {
+                              final name = value.cart.keys.elementAt(index);
+                              final price = value.cart[name];
+                              log(value.cart[name].toString());
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.circle,
+                                          size: 10,
+                                          color: green,
+                                        ),
+                                        const SizedBox(width: 15),
+                                        Text(
+                                          name,
+                                          style: const TextStyle(
+                                            color: black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                      child: Text(
+                                        "₹ ${price.toString()}",
+                                        style: const TextStyle(
+                                          color: black,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                    ),
                   ),
                   const Divider(
                     thickness: 1,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
@@ -26,20 +28,12 @@ class CombineCategory extends StatefulWidget {
 }
 
 class _CombineCategoryState extends State<CombineCategory> {
-  bool hideTile = false;
-  bool onChange = false;
+  List<int> list = [];
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AddButtonProvider>(
-      builder: (context, value, child) {
-        Map<String, int> quantities = value.quantity;
-        late int quantity;
-        if (quantities.containsKey(widget.name)) {
-          quantity = quantities[widget.name]!;
-        } else {
-          quantity = 0;
-        }
+      builder: (context, value, _) {
         return ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -51,131 +45,213 @@ class _CombineCategoryState extends State<CombineCategory> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 60,
-                        child: Text(
-                          category.name,
-                          style: const TextStyle(
-                            color: green,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => setState(() {
+                      if (list.contains(index)) {
+                        list.remove(index);
+                      } else {
+                        list.add(index);
+                      }
+                    }),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          child: Text(
+                            category.name,
+                            style: const TextStyle(
+                              color: green,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      const Icon(Icons.arrow_drop_down),
-                    ],
+                        !list.contains(index)
+                            ? const Icon(Icons.arrow_drop_down)
+                            : const Icon(
+                                Icons.play_arrow,
+                                size: 12,
+                              )
+                      ],
+                    ),
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: category.items.length,
-                      itemBuilder: (context, index) {
-                        final item = category.items[index];
-                        return Column(
-                          children: [
-                            const Divider(),
-                            Container(
-                              height: 60,
-                              decoration: const BoxDecoration(),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                  !list.contains(index)
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: category.items.length,
+                          itemBuilder: (context, innerIndex) {
+                            final item = category.items[innerIndex];
+                            Map<String, int> quantities = value.quantity;
+                            late int quantity;
+                            //1st mistake were passed name eg(if (quantities.containsKey(widget.name)) Remind my mistake
+
+                            if (quantities.containsKey(item.name)) {
+                              quantity = quantities[item.name]!;
+                            } else {
+                              quantity = 0;
+                            }
+
+                            return Column(
+                              children: [
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                Container(
+                                  height: 60,
+                                  decoration: const BoxDecoration(),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        item.name,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      !widget.bools[index]
-                                          ? const Text(
-                                              "* Out of Stock",
-                                              style: TextStyle(
-                                                  color: red,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          : Text(
-                                              "₹ ${item.price}",
-                                              style: const TextStyle(
-                                                  color: black,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                    ],
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        if (quantity == 0 &&
-                                            widget.bools[index]) {
-                                          setState(() => quantity++);
-                                          Provider.of<AddButtonProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .addItem(widget.name[index],
-                                                  widget.price[index]);
-                                        }
-                                        onChange = !onChange;
-                                      });
-                                    },
-                                    child: Container(
-                                        height: 40,
-                                        width: 100,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 5,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: !onChange
-                                              ? green.withOpacity(0.12)
-                                              : green,
-                                        ),
-                                        child: quantity == 0
-                                            ? const Center(
-                                                child: Text(
-                                                  "ADD",
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item.name,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          !widget.bools[innerIndex]
+                                              ? const Text(
+                                                  "* Out of Stock",
                                                   style: TextStyle(
-                                                      color: green,
+                                                      color: red,
                                                       fontWeight:
                                                           FontWeight.bold),
+                                                )
+                                              : Text(
+                                                  "₹ ${item.price}",
+                                                  style: const TextStyle(
+                                                      color: black,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                 ),
-                                              )
-                                            : Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: const Icon(
-                                                      Icons.remove,
-                                                      color: white,
-                                                    ),
+                                        ],
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          if (quantity == 0 &&
+                                              widget.bools[innerIndex]) {
+                                            setState(() => quantity++);
+
+                                            Provider.of<AddButtonProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .addItem(
+                                              item.name,
+                                              //2nd mistake we were passed quantity here thata why payNow() shows quantity accept price
+                                              item.price,
+                                            );
+                                          }
+                                          log(quantity.toString());
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          width: 100,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 5,
+                                          ),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: quantity == 0
+                                                  ? green.withOpacity(0.12)
+                                                  : green),
+                                          child: quantity == 0
+                                              ? const Center(
+                                                  child: Text(
+                                                    "ADD",
+                                                    style: TextStyle(
+                                                        color: green,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: const Icon(
-                                                      Icons.add,
-                                                      color: white,
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        if (quantity > 1) {
+                                                          setState(
+                                                              () => quantity--);
+
+                                                          Provider.of<
+                                                              AddButtonProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          ).decreaseQuantity(
+                                                            item.name,
+                                                            item.price,
+                                                          );
+                                                        } else {
+                                                          setState(() =>
+                                                              quantity = 0);
+                                                          Provider.of<
+                                                              AddButtonProvider>(
+                                                            context,
+                                                            listen: false,
+                                                          ).removeItem(
+                                                            item.name,
+                                                            //3rd mistake we were pass here same thing quntity thats why when user click on minus button its minus  price until all price get 0 and quantity remains .
+                                                            item.price,
+                                                          );
+                                                        }
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.remove,
+                                                        color: white,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              )),
+                                                    Center(
+                                                      child: Text(
+                                                        "$quantity",
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          color: white,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        setState(
+                                                            () => quantity++);
+                                                        Provider.of<
+                                                            AddButtonProvider>(
+                                                          context,
+                                                          listen: false,
+                                                        ).increaseQuantity(
+                                                          item.name,
+                                                          item.price,
+                                                        );
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.add,
+                                                        color: white,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      }),
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      : Container(),
                 ],
               ),
             );
@@ -186,41 +262,3 @@ class _CombineCategoryState extends State<CombineCategory> {
     );
   }
 }
-
-// SizedBox(
-//       height: 600,
-//       child: ListView.separated(
-//         itemBuilder: (context, index) {
-//           final category = widget.categories[index];
-
-//           return Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: Text(
-//                   category.name,
-//                   style: const TextStyle(
-//                       fontSize: 18, fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//               ListView.builder(
-//                 shrinkWrap: true,
-//                 physics: const ClampingScrollPhysics(),
-//                 itemCount: category.items.length,
-//                 itemBuilder: (context, index) {
-//                   final item = category.items[index];
-
-//                   return ListTile(
-//                     title: Text(item.name),
-//                     trailing: Text("\$${item.price}"),
-//                   );
-//                 },
-//               ),
-//             ],
-//           );
-//         },
-//         separatorBuilder: (context, index) => const Divider(),
-//         itemCount: widget.categories.length,
-//       ),
-//     );
