@@ -8,7 +8,7 @@ import 'package:restaurent_test1/app/view/component.dart';
 import 'package:restaurent_test1/app/model/menu.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/provider/bottom_provider.dart';
-import 'package:restaurent_test1/app/view/screens/pament_view.dart';
+import 'package:restaurent_test1/app/view/screens/payment_slip_view.dart';
 import 'package:restaurent_test1/app/view/widgets/bottom.dart';
 import 'package:restaurent_test1/app/view/widgets/drawer.dart';
 import 'package:restaurent_test1/app/view/widgets/flexiblespacebar.dart';
@@ -142,9 +142,6 @@ class CustomSliverToBox extends StatefulWidget {
 class _CustomSliverToBoxState extends State<CustomSliverToBox> {
   @override
   Widget build(BuildContext context) {
-    final currentIndexProvider = Provider.of<MyBottomState>(context);
-    final currentIndex = currentIndexProvider.currentIndex;
-
     return SliverToBoxAdapter(
       child: Column(
         children: [

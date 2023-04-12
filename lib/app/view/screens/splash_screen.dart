@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/util/colors.dart';
-import 'package:restaurent_test1/app/view/screens/home.dart';
-import 'package:restaurent_test1/app/view/screens/provider_splash.dart';
+import 'package:restaurent_test1/app/provider/provider_splash.dart';
+import 'package:restaurent_test1/app/view/screens/login_screen/login_home.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const HomeView()),
+          MaterialPageRoute(builder: (context) => const LoginHome()),
           (route) => false);
     });
   }

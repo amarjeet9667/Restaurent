@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "158423231626",
+    "project_id": "funfood-6e5ba",
+    "storage_bucket": "funfood-6e5ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158423231626:android:93c524dc27265f7cd19173",
+        "android_client_info": {
+          "package_name": "com.example.restaurent_test1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158423231626-t7857jcgq3v4ivc2vl4mfveedlf61pqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.restaurent_test1",
+            "certificate_hash": "e315a072ec00ff5a329ad783d1b53a31c0cf86ae"
+          }
+        },
+        {
+          "client_id": "158423231626-ald10k05n5m2logg2o0c92q6e8e2as7b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaC6OMIAAdORWfhsogIGBj5xdubR_xuqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158423231626-ald10k05n5m2logg2o0c92q6e8e2as7b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

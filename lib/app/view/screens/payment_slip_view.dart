@@ -409,59 +409,63 @@ class _PaymentViewState extends State<PaymentView> {
                     ],
                   ),
                 ),
-                Container(
-                  height: 60,
-                  width: width * 0.90,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: green,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "\u20B9 ",
-                            style: TextStyle(
-                                color: white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Total",
-                            style: TextStyle(
-                              color: white,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
+                Consumer<AddButtonProvider>(
+                  builder: (context, value, child) {
+                    return Container(
+                      height: 60,
+                      width: width * 0.90,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: green,
                       ),
-                      Row(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "PAY NOW ",
-                              style: TextStyle(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "\u20B9 ",
+                                style: TextStyle(
+                                    color: white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "${value.cartAmount + 25}Total",
+                                style: const TextStyle(
                                   color: white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
                           ),
-                          const Icon(
-                            Icons.play_arrow,
-                            size: 15,
-                            color: white,
-                          )
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  "PAY NOW ",
+                                  style: TextStyle(
+                                      color: white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Icon(
+                                Icons.play_arrow,
+                                size: 15,
+                                color: white,
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    );
+                  },
+                )
               ],
             ),
           )
