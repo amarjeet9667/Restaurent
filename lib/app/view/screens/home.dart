@@ -67,6 +67,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: trans));
     final height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider(
@@ -143,17 +145,13 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          CombineCategory(
-              tabs: widget.tabs,
-              name: widget.name,
-              price: widget.price,
-              image: widget.image,
-              bools: widget.bools,
-              categories: widget.categories),
-        ],
-      ),
+      child: CombineCategory(
+          tabs: widget.tabs,
+          name: widget.name,
+          price: widget.price,
+          image: widget.image,
+          bools: widget.bools,
+          categories: widget.categories),
     );
   }
 }

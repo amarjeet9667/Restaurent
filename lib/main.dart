@@ -4,9 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/provider/bottom_provider.dart';
+import 'package:restaurent_test1/app/util/colors.dart';
 import 'package:restaurent_test1/app/view/screens/splash_screen.dart';
-
-import 'app/util/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: trans),
-    );
+        const SystemUiOverlayStyle(statusBarColor: trans));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

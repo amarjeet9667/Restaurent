@@ -426,16 +426,16 @@ class _PaymentViewState extends State<PaymentView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                "\u20B9 ",
-                                style: TextStyle(
+                              Text(
+                                "\u20B9 ${value.cartAmount + 25}",
+                                style: const TextStyle(
                                     color: white,
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                "${value.cartAmount + 25}Total",
-                                style: const TextStyle(
+                              const Text(
+                                "Total",
+                                style: TextStyle(
                                   color: white,
                                   fontSize: 15,
                                 ),
