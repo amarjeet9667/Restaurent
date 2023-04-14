@@ -67,8 +67,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: trans));
     final height = MediaQuery.of(context).size.height;
 
     return ChangeNotifierProvider(
@@ -95,8 +93,6 @@ class _HomeViewState extends State<HomeView> {
                     bottom: PreferredSize(
                       preferredSize: const Size.fromHeight(0),
                       child: MyBottom(
-                        price: mealPrice,
-                        name: mealName,
                         categories: categories,
                       ),
                     ),
@@ -107,7 +103,6 @@ class _HomeViewState extends State<HomeView> {
                     name: mealName,
                     image: mealImage,
                     bools: mealInstock,
-                    categories: categories,
                   ),
                 ],
               ),
@@ -126,13 +121,12 @@ class CustomSliverToBox extends StatefulWidget {
   final List<String> image;
   final List<int> price;
   final List<bool> bools;
-  final List<FoodType> categories;
+
   const CustomSliverToBox({
     super.key,
     required this.tabs,
     required this.price,
     required this.name,
-    required this.categories,
     required this.image,
     required this.bools,
   });
@@ -145,13 +139,35 @@ class _CustomSliverToBoxState extends State<CustomSliverToBox> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: CombineCategory(
-          tabs: widget.tabs,
-          name: widget.name,
-          price: widget.price,
-          image: widget.image,
-          bools: widget.bools,
-          categories: widget.categories),
+      child: Consumer<MyBottomState>(
+        builder: (context, value, child) {
+          // Checking currentIndex(or we can say selected index) is in range or tabs or not if yes then FoodType(eg: suppose currentIndex == 4 then checks with widget.tabs.length if it is in rane of tabs then print foodtypes )
+          //When currentIndex==0 or you can say currentIndex (< 0) is lesser than zero then (:) else condition passes (:widget.tabs.map((tab)=>FoodType(name:tab.name,items:tab.items)).toList())
+          final categories = value.currentIndex >= 1 &&
+                  value.currentIndex <= widget.tabs.length
+              ? [
+                  FoodType(
+                      name: widget.tabs[value.currentIndex - 1].name,
+                      items: widget.tabs[value.currentIndex - 1].items)
+                ]
+              : widget.tabs
+                  .map(
+                    (tab) => FoodType(name: tab.name, items: tab.items),
+                  )
+                  .toList();
+          return Column(
+            children: [
+              CombineCategory(
+                tabs: categories,
+                name: widget.name,
+                price: widget.price,
+                image: widget.image,
+                bools: widget.bools,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

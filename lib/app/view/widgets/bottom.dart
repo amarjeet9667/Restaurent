@@ -6,14 +6,10 @@ import '../../util/colors.dart';
 import '../../provider/bottom_provider.dart';
 
 class MyBottom extends StatefulWidget {
-  final List<String> name;
-  final List<int> price;
   final List<FoodType> categories;
 
   const MyBottom({
     super.key,
-    required this.name,
-    required this.price,
     required this.categories,
   });
 
@@ -55,7 +51,7 @@ class _MyBottomState extends State<MyBottom> {
                           name,
                           style: TextStyle(
                             color: currentIndex == index ? green : black,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

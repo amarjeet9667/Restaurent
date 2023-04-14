@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
@@ -94,6 +92,8 @@ class _PaymentViewState extends State<PaymentView> {
                               child: Consumer<AddButtonProvider>(
                                 builder: (context, value, _) {
                                   return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
                                       itemCount: value.cart.length,
                                       itemBuilder: (context, index) {
                                         final name =
@@ -101,113 +101,128 @@ class _PaymentViewState extends State<PaymentView> {
                                         final price = value.cart[name]!;
                                         int quantity =
                                             value.quantity[name] ?? 1;
-                                        log(value.cart[name].toString());
+
                                         return Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 20, vertical: 20),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.circle,
-                                                        size: 10,
-                                                        color: green,
-                                                      ),
-                                                      const SizedBox(width: 15),
-                                                      Text(
-                                                        name,
-                                                        style: const TextStyle(
-                                                          color: black,
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 25),
-                                                    child: Text(
-                                                      "₹ ${price.toString()}",
-                                                      style: const TextStyle(
-                                                        color: black,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                height: 40,
-                                                width: 100,
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: green,
-                                                ),
-                                                child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          if (value
-                                                                  .cartAmount >=
-                                                              1) {
-                                                            value
-                                                                .decreaseQuantity(
+                                          child: quantity == 0
+                                              ? Container()
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.circle,
+                                                              size: 10,
+                                                              color: green,
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 15),
+                                                            Text(
                                                               name,
-                                                              price,
-                                                            );
-                                                          }
-                                                        },
-                                                        child: const Icon(
-                                                          Icons.remove,
-                                                          color: white,
+                                                              style:
+                                                                  const TextStyle(
+                                                                color: black,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
-                                                      Center(
-                                                        child: Text(
-                                                          quantity.toString(),
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 18,
-                                                            color: white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      25),
+                                                          child: Text(
+                                                            "₹ ${price.toString()}",
+                                                            style:
+                                                                const TextStyle(
+                                                              color: black,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
                                                           ),
                                                         ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      height: 40,
+                                                      width: 100,
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 5),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: green,
                                                       ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          value
-                                                              .increaseQuantity(
-                                                                  name, price);
-                                                        },
-                                                        child: const Icon(
-                                                          Icons.add,
-                                                          color: white,
-                                                        ),
-                                                      ),
-                                                    ]),
-                                              ),
-                                            ],
-                                          ),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                if (value
+                                                                        .cartAmount >=
+                                                                    1) {
+                                                                  value
+                                                                      .decreaseQuantity(
+                                                                    name,
+                                                                    price,
+                                                                  );
+                                                                }
+                                                              },
+                                                              child: const Icon(
+                                                                Icons.remove,
+                                                                color: white,
+                                                              ),
+                                                            ),
+                                                            Center(
+                                                              child: Text(
+                                                                quantity
+                                                                    .toString(),
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                value
+                                                                    .increaseQuantity(
+                                                                        name,
+                                                                        price);
+                                                              },
+                                                              child: const Icon(
+                                                                Icons.add,
+                                                                color: white,
+                                                              ),
+                                                            ),
+                                                          ]),
+                                                    ),
+                                                  ],
+                                                ),
                                         );
                                       });
                                 },

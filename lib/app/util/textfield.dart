@@ -1,3 +1,4 @@
+// This TextField is used in login page and signup page (eg:-email field,password field and so on)
 import 'package:flutter/material.dart';
 import 'package:restaurent_test1/app/util/colors.dart';
 
@@ -24,49 +25,37 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  bool isTyping = false;
+  FocusNode f1 = FocusNode();
+  @override
+  void initState() {
+    f1.addListener(() => setState(() {}));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: isTyping
-          ? BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                  BoxShadow(
-                    color: grey.withOpacity(
-                      0.5,
-                    ),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  )
-                ])
-          : BoxDecoration(
-              border: Border.all(
-                color: grey.shade400,
-              ),
-              borderRadius: BorderRadius.circular(5),
+    return SizedBox(
+      height: 70,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: f1.hasFocus ? 20 : 0,
+        child: Center(
+          child: TextFormField(
+            obscureText: widget.obscureText ?? false,
+            style: const TextStyle(color: black),
+            cursorColor: black,
+            controller: widget.controller,
+            validator: widget.validator,
+            focusNode: f1,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: widget.hintText,
+              hintStyle: const TextStyle(color: grey),
+              suffixIcon: widget.suffixIcon,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
             ),
-      child: TextFormField(
-        obscureText: widget.obscureText ?? false,
-        style: const TextStyle(color: black),
-        cursorColor: black,
-        controller: widget.controller,
-        validator: widget.validator,
-        autofocus: true,
-        onChanged: (value) {
-          setState(() {
-            isTyping = value.isNotEmpty;
-          });
-        },
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: widget.hintText,
-          hintStyle: const TextStyle(color: grey),
-          suffixIcon: widget.suffixIcon,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          ),
         ),
       ),
     );

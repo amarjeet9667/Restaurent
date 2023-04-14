@@ -12,7 +12,7 @@ class CombineCategory extends StatefulWidget {
   final List<int> price;
   final List<String> image;
   final List<bool> bools;
-  final List<FoodType> categories;
+
   const CombineCategory({
     super.key,
     required this.tabs,
@@ -20,7 +20,6 @@ class CombineCategory extends StatefulWidget {
     required this.price,
     required this.image,
     required this.bools,
-    required this.categories,
   });
 
   @override
@@ -61,12 +60,14 @@ class _CombineCategoryState extends State<CombineCategory> {
                           children: [
                             SizedBox(
                               height: 60,
-                              child: Text(
-                                category.name,
-                                style: const TextStyle(
-                                  color: green,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              child: Center(
+                                child: Text(
+                                  category.name,
+                                  style: const TextStyle(
+                                    color: green,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
@@ -88,6 +89,7 @@ class _CombineCategoryState extends State<CombineCategory> {
                                 final item = category.items[innerIndex];
                                 Map<String, int> quantities = value.quantity;
                                 late int quantity;
+
                                 //1st mistake were passed name eg(if (quantities.containsKey(widget.name)) Remind my mistake
 
                                 if (quantities.containsKey(item.name)) {

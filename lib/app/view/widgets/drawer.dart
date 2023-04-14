@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/view/screens/login_screen/login_view.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
     super.key,
     required this.height,
@@ -10,9 +12,15 @@ class CustomDrawer extends StatelessWidget {
   final double height;
 
   @override
+  State<CustomDrawer> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  bool isLogOut = false;
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: height * 0.8,
+      height: widget.height * 0.8,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(20),
@@ -55,15 +63,31 @@ class CustomDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            TextButton(
-                onPressed: () {},
-                child: Text(
-                  "LogOut",
-                  style: TextStyle(
-                      color: green.withOpacity(0.5),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ))
+            isLogOut
+                ? const Center(
+                    child: CircularProgressIndicator(color: green),
+                  )
+                : TextButton(
+                    onPressed: () async {
+                      setState(() {
+                        isLogOut = true;
+                      });
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()),
+                          (route) => false);
+                      setState(() {
+                        isLogOut = false;
+                      });
+                    },
+                    child: Text(
+                      "LogOut",
+                      style: TextStyle(
+                          color: green.withOpacity(0.5),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ))
           ],
         ),
       ),
