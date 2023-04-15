@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:restaurent_test1/app/util/colors.dart';
 import 'package:restaurent_test1/app/util/login_buttons.dart';
 import 'package:restaurent_test1/app/util/textfield.dart';
 import 'package:restaurent_test1/app/view/screens/home.dart';
+import 'package:restaurent_test1/app/view/screens/login_screen/signup_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -46,36 +46,35 @@ class _LoginViewState extends State<LoginView> {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     final regex = RegExp(pattern);
 
-    // return !regex.hasMatch(value)
-    //     ? 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#\$&*~).'
-    //     : null;
+    return !regex.hasMatch(value)
+        ? 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#\$&*~).'
+        : null;
 
-    if (!regex.hasMatch(value)) {
-      return 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#\$&*~).';
-    } else {
-      return "Wrong Password";
-    }
+    // if (!regex.hasMatch(value)) {
+    //   return 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (!@#\$&*~).';
+    // } else {
+    //   return "Wrong Password";
+    // }
   }
+
+  String? emailError;
+  String? passwordError;
 
   bool obscureText = false;
   bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: grey),
-    );
     // final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30),
-              child: Column(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
@@ -86,7 +85,6 @@ class _LoginViewState extends State<LoginView> {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: 15),
                   Text(
                     "Please sign in to continue.",
                     style: TextStyle(
@@ -97,104 +95,145 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-            ),
-            Form(
-              autovalidateMode: AutovalidateMode.always,
-              key: myFormKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MyTextField(
-                    hintText: "Email",
-                    suffixIcon: const Icon(
-                      Icons.mail,
-                      color: grey,
-                    ),
-                    textInputAction: TextInputAction.next,
-                    validator: validateEmail,
-                    controller: email,
-                  ),
-                  const SizedBox(height: 30),
-                  MyTextField(
-                    hintText: "Password",
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        setState(() {
-                          obscureText = !obscureText;
-                        });
-                      },
-                      child: Icon(
-                        obscureText ? Icons.visibility : Icons.visibility_off,
+              Form(
+                key: myFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyTextField(
+                      hintText: "Email",
+                      suffixIcon: const Icon(
+                        Icons.mail,
                         color: grey,
                       ),
+                      textInputAction: TextInputAction.next,
+                      validator: (value) {
+                        final error = validateEmail(value);
+                        setState(() {
+                          emailError = error;
+                        });
+                        return null;
+                      },
+                      controller: email,
                     ),
-                    textInputAction: TextInputAction.done,
-                    obscureText: !obscureText,
-                    validator: validatePassword,
-                    controller: pass,
-                  ),
-                  const SizedBox(height: 30),
-                  isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: green,
-                          ),
-                        )
-                      : Align(
-                          alignment: Alignment.centerRight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Buttons(
-                                buttonText: "Submit",
-                                onPressed: () {
-                                  if (myFormKey.currentState!.validate()) {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    login();
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  "Forget Password",
-                                  style: TextStyle(
-                                      color: blue,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 15),
-                                ),
-                              ),
-                            ],
+                    if (emailError != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          emailError!,
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 12,
                           ),
                         ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
-                const Text(
-                  "Don't have an account?",
-                  style: TextStyle(color: black),
+                      ),
+                    const SizedBox(height: 30),
+                    MyTextField(
+                      hintText: "Password",
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                        child: Icon(
+                          obscureText ? Icons.visibility : Icons.visibility_off,
+                          color: grey,
+                        ),
+                      ),
+                      textInputAction: TextInputAction.done,
+                      obscureText: !obscureText,
+                      validator: (value) {
+                        final pError = validatePassword(value);
+                        setState(() {
+                          passwordError = pError;
+                        });
+                        return null;
+                      },
+                      controller: pass,
+                    ),
+                    if (passwordError != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          passwordError!,
+                          textAlign: TextAlign.left,
+                          maxLines: 5,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: red,
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 30),
+                    isLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: green,
+                            ),
+                          )
+                        : Align(
+                            alignment: Alignment.centerRight,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Buttons(
+                                  buttonText: "Submit",
+                                  onPressed: () {
+                                    if (myFormKey.currentState!.validate()) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      login();
+                                    }
+                                  },
+                                ),
+                                const SizedBox(height: 10),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "Forget Password",
+                                    style: TextStyle(
+                                        color: blue,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ],
                 ),
-                const SizedBox(width: 5),
-                InkWell(
-                  onTap: () {},
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      color: green,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+              ),
+              Row(
+                children: [
+                  const Text(
+                    "Don't have an account?",
+                    style: TextStyle(color: black),
+                  ),
+                  const SizedBox(width: 5),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpView(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Sign up",
+                      style: TextStyle(
+                        color: green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -220,6 +259,7 @@ class _LoginViewState extends State<LoginView> {
             .then((value) async {
           await saveUser(
               email: email.text,
+              pass: pass.text,
               name: email.text.split('@')[0],
               photo: value.user!.photoURL ?? "");
           Navigator.of(context)
@@ -235,6 +275,7 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> saveUser({
     required String email,
+    required String pass,
     required String name,
     required String photo,
   }) async {
@@ -247,6 +288,7 @@ class _LoginViewState extends State<LoginView> {
       await FirebaseFirestore.instance.collection("Users").doc(uid).set({
         "name": name,
         "email": email,
+        "password": pass,
         "photo": photo,
       }).then((value) {
         Navigator.of(context)

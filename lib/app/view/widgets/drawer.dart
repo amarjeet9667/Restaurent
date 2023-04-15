@@ -17,6 +17,8 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   bool isLogOut = false;
+  String? profileImage;
+
   @override
   Widget build(BuildContext context) {
     return Container(

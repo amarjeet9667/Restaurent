@@ -4,7 +4,7 @@ import 'package:restaurent_test1/app/util/colors.dart';
 
 class MyTextField extends StatefulWidget {
   final String hintText;
-  final Widget suffixIcon;
+  final Widget? suffixIcon;
   final bool? obscureText;
   final TextInputAction textInputAction;
   final TextEditingController? controller;
@@ -13,7 +13,7 @@ class MyTextField extends StatefulWidget {
   const MyTextField({
     super.key,
     required this.hintText,
-    required this.suffixIcon,
+    this.suffixIcon,
     this.controller,
     this.validator,
     this.obscureText,
@@ -34,27 +34,24 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 70,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: f1.hasFocus ? 20 : 0,
-        child: Center(
-          child: TextFormField(
-            obscureText: widget.obscureText ?? false,
-            style: const TextStyle(color: black),
-            cursorColor: black,
-            controller: widget.controller,
-            validator: widget.validator,
-            focusNode: f1,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: widget.hintText,
-              hintStyle: const TextStyle(color: grey),
-              suffixIcon: widget.suffixIcon,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-            ),
+    return Card(
+      surfaceTintColor: red,
+      elevation: f1.hasFocus ? 5 : 0.5,
+      child: Center(
+        child: TextFormField(
+          obscureText: widget.obscureText ?? false,
+          style: const TextStyle(color: black),
+          cursorColor: black,
+          controller: widget.controller,
+          validator: widget.validator,
+          focusNode: f1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: widget.hintText,
+            hintStyle: const TextStyle(color: grey),
+            suffixIcon: widget.suffixIcon,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
           ),
         ),
       ),
