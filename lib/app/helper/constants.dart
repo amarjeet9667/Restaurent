@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 const white = Colors.white;
@@ -15,3 +18,9 @@ const orange2 = Color.fromARGB(255, 56, 128, 39);
 const orange3 = Color.fromARGB(255, 46, 118, 29);
 const orange4 = Color.fromARGB(255, 36, 108, 19);
 const orange5 = Color.fromARGB(255, 26, 98, 9);
+
+
+// FIREBASE
+var firebaseAuth = FirebaseAuth.instance;
+var firebaseStorage = FirebaseStorage.instance;
+var fireStore = FirebaseFirestore.instance;

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/helper/constants.dart';
 import 'package:restaurent_test1/app/util/login_buttons.dart';
 import 'package:restaurent_test1/app/util/textfield.dart';
 import 'package:restaurent_test1/app/view/screens/home.dart';
@@ -113,6 +113,7 @@ class _SignUpViewState extends State<SignUpView> {
                       MyTextField(
                         hintText: "Phone no.",
                         textInputAction: TextInputAction.next,
+                        maxLength: 10,
                         suffixIcon: const Icon(
                           Icons.phone,
                           color: grey,
@@ -204,27 +205,31 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30, top: 50),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Buttons(
-                    buttonText: "SIGN UP",
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        registerUser(
-                            name: fName.text,
-                            email: email.text,
-                            password: password.text,
-                            phone: phone.text);
-                      }
-                    },
-                  ),
-                ),
-              ),
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(right: 30, top: 50),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Buttons(
+                          buttonText: "SIGN UP",
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              registerUser(
+                                  name: fName.text,
+                                  email: email.text,
+                                  password: password.text,
+                                  phone: phone.text);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
@@ -282,6 +287,7 @@ class _SignUpViewState extends State<SignUpView> {
           phone: phone,
           email: email,
           password: password,
+          photo: '',
         );
 
         Navigator.of(context)
@@ -304,8 +310,14 @@ class _SignUpViewState extends State<SignUpView> {
     required String email,
     required String password,
     required String phone,
+    required String photo,
   }) async {
-    await FirebaseFirestore.instance.collection("User").doc(uid).set(
-        {"name": name, "email": email, "phone": phone, "password": password});
+    await FirebaseFirestore.instance.collection("User").doc(uid).set({
+      "name": name,
+      "email": email,
+      "phone": phone,
+      "password": password,
+      'photo': photo
+    });
   }
 }

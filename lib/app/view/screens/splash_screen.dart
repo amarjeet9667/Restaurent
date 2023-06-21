@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/helper/constants.dart';
 import 'package:restaurent_test1/app/provider/provider_splash.dart';
 import 'package:restaurent_test1/app/view/screens/login_screen/login_view.dart';
 

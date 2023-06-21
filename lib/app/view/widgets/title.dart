@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../util/colors.dart';
+import '../../helper/constants.dart';
 
 class CustomTitle extends StatelessWidget {
   const CustomTitle({
@@ -22,8 +22,8 @@ class CustomTitle extends StatelessWidget {
                 color: green,
               ),
             ),
-            Row(
-              children: const [
+            const Row(
+              children: [
                 Icon(
                   Icons.location_on,
                   color: green,

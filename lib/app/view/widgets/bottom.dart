@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/model/menu.dart';
 
-import '../../util/colors.dart';
+import '../../helper/constants.dart';
 import '../../provider/bottom_provider.dart';
 
 class MyBottom extends StatefulWidget {

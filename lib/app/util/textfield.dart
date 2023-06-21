@@ -1,11 +1,12 @@
 // This TextField is used in login page and signup page (eg:-email field,password field and so on)
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/helper/constants.dart';
 
 class MyTextField extends StatefulWidget {
   final String hintText;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final int? maxLength;
   final TextInputAction textInputAction;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -18,6 +19,7 @@ class MyTextField extends StatefulWidget {
     this.validator,
     this.obscureText,
     required this.textInputAction,
+    this.maxLength,
   });
 
   @override
@@ -45,7 +47,9 @@ class _MyTextFieldState extends State<MyTextField> {
           controller: widget.controller,
           validator: widget.validator,
           focusNode: f1,
+          maxLength: widget.maxLength,
           decoration: InputDecoration(
+            counterText: '',
             border: InputBorder.none,
             hintText: widget.hintText,
             hintStyle: const TextStyle(color: grey),

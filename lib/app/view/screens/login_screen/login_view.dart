@@ -1,11 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/helper/constants.dart';
+import 'package:restaurent_test1/app/helper/dialog_helper.dart';
 import 'package:restaurent_test1/app/util/login_buttons.dart';
 import 'package:restaurent_test1/app/util/textfield.dart';
 import 'package:restaurent_test1/app/view/screens/home.dart';
 import 'package:restaurent_test1/app/view/screens/login_screen/signup_view.dart';
+import 'package:restaurent_test1/app/view/widgets/button_widget.dart';
+import 'package:restaurent_test1/app/view/widgets/input_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -17,7 +20,14 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final myFormKey = GlobalKey<FormState>();
   final email = TextEditingController();
-  final pass = TextEditingController();
+  final password = TextEditingController();
+  final forgetEmailController = TextEditingController();
+
+  @override
+  void initState() {
+    checkUserLoggedIn();
+    super.initState();
+  }
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -65,6 +75,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    DialogHelper.setContext(context);
     // final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
@@ -74,9 +85,9 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     "Login",
                     style: TextStyle(
@@ -151,7 +162,7 @@ class _LoginViewState extends State<LoginView> {
                         });
                         return null;
                       },
-                      controller: pass,
+                      controller: password,
                     ),
                     if (passwordError != null)
                       Padding(
@@ -179,19 +190,17 @@ class _LoginViewState extends State<LoginView> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Buttons(
-                                  buttonText: "Submit",
-                                  onPressed: () {
-                                    if (myFormKey.currentState!.validate()) {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      login();
-                                    }
-                                  },
-                                ),
+                                    buttonText: "Submit",
+                                    onPressed: () {
+                                      loginUser(
+                                          email: email.text,
+                                          password: password.text);
+                                    }),
                                 const SizedBox(height: 10),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    forgetEmailDialog();
+                                  },
                                   child: const Text(
                                     "Forget Password",
                                     style: TextStyle(
@@ -215,11 +224,7 @@ class _LoginViewState extends State<LoginView> {
                   const SizedBox(width: 5),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SignUpView(),
-                        ),
-                      );
+                      registrationPage();
                     },
                     child: const Text(
                       "Sign up",
@@ -239,64 +244,121 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Future<void> login() async {
-    final formState = myFormKey.currentState!;
-    if (formState.validate()) {
-      formState.save();
-    }
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email.text, password: pass.text)
-          .then((value) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const HomeView()));
-      });
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: email.text, password: pass.text)
-            .then((value) async {
-          await saveUser(
-              email: email.text,
-              pass: pass.text,
-              name: email.text.split('@')[0],
-              photo: value.user!.photoURL ?? "");
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const HomeView()));
-        });
-      }
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+  void checkUserLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? userToken = prefs.getString('userToken');
+
+    if (userToken != null) {
+      // User is logged in, navigate to home page
+      homePage();
+    } else {
+      loginPage();
     }
   }
 
-  Future<void> saveUser({
-    required String email,
-    required String pass,
-    required String name,
-    required String photo,
-  }) async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    final firestore = await FirebaseFirestore.instance
-        .collection('Users')
-        .where('uid', isEqualTo: uid)
-        .get();
-    if (firestore.docs.isEmpty) {
-      await FirebaseFirestore.instance.collection("Users").doc(uid).set({
-        "name": name,
-        "email": email,
-        "password": pass,
-        "photo": photo,
-      }).then((value) {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const HomeView()));
-      });
-    } else {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const HomeView()));
+  void loginUser({required String email, required String password}) async {
+    try {
+      if (email.isNotEmpty && password.isNotEmpty) {
+        DialogHelper.showLoading();
+        final UserCredential userCredential = await firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password);
+
+        // Save the user authentication token locally
+        final String? userToken = userCredential.user?.uid;
+        if (userToken != null) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userToken', userToken);
+        }
+
+        homePage();
+      } else {
+        DialogHelper.showSnackBar(strMsg: 'Please enter all the fields');
+      }
+    } catch (e) {
+      DialogHelper.showSnackBar(strMsg: e.toString(), title: 'Error');
     }
+  }
+
+  void forgetEmailDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Enter Email',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                const SizedBox(height: 10),
+                InputWidget(
+                    icon: Icons.email,
+                    controller: forgetEmailController,
+                    hintText: "Email"),
+                const SizedBox(
+                  height: 10,
+                ),
+                ButtonWidget(
+                  onPress: () {
+                    DialogHelper.showLoading();
+                    forgotPass(email: forgetEmailController.text);
+                  },
+                  buttonText: 'Reset Password',
+                  textColor: Colors.white,
+                  backgroundColor: red,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void forgotPass({required String email}) async {
+    if (email.isEmpty) {
+      DialogHelper.hideLoading();
+      DialogHelper.showSnackBar(strMsg: 'Please Entera Vailid Email!');
+    } else {
+      if (Navigator.canPop(context)) {
+        Navigator.of(context).pop();
+      }
+      try {
+        await firebaseAuth.sendPasswordResetEmail(email: email);
+        DialogHelper.hideLoading();
+        DialogHelper.showErrorDialog(
+            title: 'Reset Password',
+            description:
+                'Please check your email and click on the provided link to reset your password');
+      } on FirebaseAuthException catch (e) {
+        DialogHelper.hideLoading();
+        DialogHelper.showSnackBar(strMsg: e.toString());
+      } catch (e) {
+        DialogHelper.hideLoading();
+        DialogHelper.showSnackBar(strMsg: e.toString());
+      }
+    }
+  }
+
+  void homePage() {
+    DialogHelper.hideLoading();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const HomeView()),
+        (route) => false);
+  }
+
+  void loginPage() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginView()),
+        (route) => false);
+  }
+
+  void registrationPage() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const SignUpView()),
+        (route) => false);
   }
 }

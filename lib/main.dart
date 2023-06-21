@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/provider/bottom_provider.dart';
-import 'package:restaurent_test1/app/util/colors.dart';
+import 'package:restaurent_test1/app/helper/constants.dart';
 import 'package:restaurent_test1/app/view/screens/splash_screen.dart';
 
 void main() async {
