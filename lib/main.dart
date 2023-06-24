@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/provider/bottom_provider.dart';
@@ -9,6 +10,8 @@ import 'package:restaurent_test1/app/view/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      'pk_test_51NLkXBSFN73JriRHPcrAsYFFOpxcKUzkc82EJLfPq7LfWbe9KalHlSPmZjn09eYM1biDaSzyXXBUo7koExZdJrsV00LBnZCWei';
   await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,

@@ -52,9 +52,13 @@ class DialogHelper {
   }
 
   //show snack bar
-  static void showSnackBar({String title = "Alert!", required String strMsg}) {
+  static void showSnackBar({
+    required BuildContext context,
+    String title = "Alert!",
+    required String strMsg,
+  }) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final scaffoldMessenger = ScaffoldMessenger.maybeOf(_currentContext);
+      final scaffoldMessenger = ScaffoldMessenger.maybeOf(context);
       scaffoldMessenger?.showSnackBar(
         SnackBar(
           content: Text(strMsg),

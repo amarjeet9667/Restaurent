@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurent_test1/app/helper/dialog_helper.dart';
 import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/helper/constants.dart';
 import 'package:restaurent_test1/app/view/screens/home.dart';
+import 'package:restaurent_test1/app/view/screens/succeful_screen.dart';
 
 class PaymentView extends StatefulWidget {
   const PaymentView({
@@ -15,6 +22,23 @@ class PaymentView extends StatefulWidget {
 }
 
 class _PaymentViewState extends State<PaymentView> {
+  Dio dio = Dio();
+  bool _isPaymentSuccessful = false;
+  late AudioPlayer _audioPlayer;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioPlayer = AudioPlayer();
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  Map<String, dynamic>? paymentIntent;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -46,8 +70,8 @@ class _PaymentViewState extends State<PaymentView> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: white),
-                      child: Row(
-                        children: const [
+                      child: const Row(
+                        children: [
                           Icon(
                             Icons.access_time_outlined,
                             color: green,
@@ -70,11 +94,11 @@ class _PaymentViewState extends State<PaymentView> {
                       ),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 10),
                             child: Row(
-                              children: const [
+                              children: [
                                 Icon(Icons.paste, color: green),
                                 SizedBox(width: 10),
                                 Text(
@@ -296,12 +320,12 @@ class _PaymentViewState extends State<PaymentView> {
                                   ),
                                 ],
                               ),
-                              Row(
+                              const Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
-                                    children: const [
+                                    children: [
                                       Icon(MdiIcons.officeBuilding),
                                       SizedBox(width: 5),
                                       Text("GST"),
@@ -310,7 +334,7 @@ class _PaymentViewState extends State<PaymentView> {
                                           size: 16),
                                     ],
                                   ),
-                                  const Text("₹ 25",
+                                  Text("₹ 25",
                                       style: TextStyle(
                                           color: green,
                                           fontSize: 18,
@@ -324,8 +348,8 @@ class _PaymentViewState extends State<PaymentView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: const [
+                                  const Row(
+                                    children: [
                                       Text(
                                         "Grand Total",
                                         style: TextStyle(
@@ -362,12 +386,11 @@ class _PaymentViewState extends State<PaymentView> {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         "Please login to place an order ",
                         style: TextStyle(
@@ -388,8 +411,8 @@ class _PaymentViewState extends State<PaymentView> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           Icon(
                             Icons.location_on,
                             color: green,
@@ -426,57 +449,59 @@ class _PaymentViewState extends State<PaymentView> {
                 ),
                 Consumer<AddButtonProvider>(
                   builder: (context, value, child) {
-                    return Container(
-                      height: 60,
-                      width: width * 0.90,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: green,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "\u20B9 ${value.cartAmount + 25}",
-                                style: const TextStyle(
+                    return InkWell(
+                      onTap: () {
+                        makePayment();
+                      },
+                      child: Container(
+                        height: 60,
+                        width: width * 0.90,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: green,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "\u20B9 ${value.cartAmount + 25}",
+                                  style: const TextStyle(
+                                      color: white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Text(
+                                  "Total",
+                                  style: TextStyle(
                                     color: white,
                                     fontSize: 15,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const Text(
-                                "Total",
-                                style: TextStyle(
-                                  color: white,
-                                  fontSize: 15,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
+                              ],
+                            ),
+                            const Row(
+                              children: [
+                                Text(
                                   "PAY NOW ",
                                   style: TextStyle(
                                       color: white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                              const Icon(
-                                Icons.play_arrow,
-                                size: 15,
-                                color: white,
-                              )
-                            ],
-                          ),
-                        ],
+                                Icon(
+                                  Icons.play_arrow,
+                                  size: 15,
+                                  color: white,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -487,5 +512,106 @@ class _PaymentViewState extends State<PaymentView> {
         ],
       ),
     );
+  }
+
+  void makePayment() async {
+    try {
+      paymentIntent = await createPaymentIntent('200', 'INR');
+      if (paymentIntent != null && paymentIntent!['client_secret'] != null) {
+        await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            paymentIntentClientSecret: paymentIntent!['client_secret'],
+            // applePay: const PaymentSheetApplePay(merchantCountryCode: 'IN'),
+            googlePay: const PaymentSheetGooglePay(
+              currencyCode: 'INR',
+              merchantCountryCode: 'IN',
+            ),
+            style: ThemeMode.light,
+            merchantDisplayName: '0002_AMARJEET',
+          ),
+        );
+        displayPaymentSheet();
+      } else {
+        DialogHelper.showSnackBar(
+            strMsg: 'Invalid payment intent.', context: context);
+      }
+    } catch (e) {
+      log('Error:-${e.toString()}');
+      DialogHelper.showSnackBar(
+          strMsg: 'Error while transaction: ${e.toString()}', context: context);
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      setState(() {
+        paymentIntent = null;
+      });
+      _processPayment();
+    } on StripeException catch (e) {
+      DialogHelper.showSnackBar(
+          strMsg: 'Error while transaction: ${e.toString()}', context: context);
+    }
+  }
+
+  Future<Map<String, dynamic>?> createPaymentIntent(
+      String amount, String currency) async {
+    try {
+      Map<String, dynamic> headers = {
+        'Authorization':
+            'Bearer sk_test_51NLkXBSFN73JriRHnkq8w0bnfOdaCAf1wB1zzZU19YFHDqiLD5APKk9ndwjeu9DOnLhEChMumGCwkP864RpBqL4H002NneUGyx',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      };
+
+      Map<String, dynamic> body = {
+        'amount': amount,
+        'currency': currency,
+      };
+
+      var response = await dio.post(
+        'https://api.stripe.com/v1/payment_intents',
+        data: body,
+        options: Options(headers: headers),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.toString());
+      }
+    } catch (e) {
+      DialogHelper.showSnackBar(
+          strMsg: 'Error while creating payment jeet intent: ${e.toString()}',
+          context: context);
+      return null;
+    }
+    return null;
+  }
+
+  calculateAmount(String amount) {
+    final price = int.parse(amount) * 100;
+    return price.toString();
+  }
+
+  void _processPayment() {
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        _isPaymentSuccessful = true;
+      });
+
+      _playSuccessSound();
+
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SuccessfulPage()),
+        );
+      });
+    });
+  }
+
+  Future<void> _playSuccessSound() async {
+    final player = AudioPlayer();
+    await player.setAsset('assets/sound.mp3');
+    await player.play();
   }
 }

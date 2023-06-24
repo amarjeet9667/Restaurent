@@ -130,17 +130,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
         ),
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-          stream: FirebaseFirestore.instance
+          stream: fireStore
               .collection('User')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: green,
+                ),
               );
             }
-            final user = snapshot.data!;
+            final user = snapshot.data;
             return Column(
               children: [
                 DrawerHeader(
@@ -148,7 +150,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   child: Row(
                     children: [
                       Text(
-                        "Hi\n${user.get('name') ?? 'User'}",
+                        "Hi\n${user!.get('name') ?? 'User'}",
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                           color: green,
@@ -169,7 +171,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   as ImageProvider
                               : const AssetImage('assets/user.png'),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

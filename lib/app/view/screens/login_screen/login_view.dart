@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurent_test1/app/helper/constants.dart';
@@ -24,10 +26,16 @@ class _LoginViewState extends State<LoginView> {
   final forgetEmailController = TextEditingController();
 
   @override
-  void initState() {
-    checkUserLoggedIn();
-    super.initState();
-  }
+void initState() {
+  super.initState();
+  firebaseAuth.authStateChanges().listen((User? user) {
+    if (user != null) {
+      // User is already logged in, navigate to the home page
+      homePage();
+    }
+  });
+}
+
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -245,16 +253,14 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void checkUserLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? userToken = prefs.getString('userToken');
+  User? user = firebaseAuth.currentUser;
 
-    if (userToken != null) {
-      // User is logged in, navigate to home page
-      homePage();
-    } else {
-      loginPage();
-    }
+  if (user != null) {
+    // User is already logged in, navigate to the home page
+    homePage();
   }
+}
+
 
   void loginUser({required String email, required String password}) async {
     try {
@@ -272,10 +278,10 @@ class _LoginViewState extends State<LoginView> {
 
         homePage();
       } else {
-        DialogHelper.showSnackBar(strMsg: 'Please enter all the fields');
+        DialogHelper.showSnackBar(strMsg: 'Please enter all the fields', context: context);
       }
     } catch (e) {
-      DialogHelper.showSnackBar(strMsg: e.toString(), title: 'Error');
+      DialogHelper.showSnackBar(strMsg: e.toString(), title: 'Error',context: context);
     }
   }
 
@@ -321,7 +327,7 @@ class _LoginViewState extends State<LoginView> {
   void forgotPass({required String email}) async {
     if (email.isEmpty) {
       DialogHelper.hideLoading();
-      DialogHelper.showSnackBar(strMsg: 'Please Entera Vailid Email!');
+      DialogHelper.showSnackBar(strMsg: 'Please Entera Vailid Email!',context: context);
     } else {
       if (Navigator.canPop(context)) {
         Navigator.of(context).pop();
@@ -335,10 +341,10 @@ class _LoginViewState extends State<LoginView> {
                 'Please check your email and click on the provided link to reset your password');
       } on FirebaseAuthException catch (e) {
         DialogHelper.hideLoading();
-        DialogHelper.showSnackBar(strMsg: e.toString());
+        DialogHelper.showSnackBar(strMsg: e.toString(),context: context);
       } catch (e) {
         DialogHelper.hideLoading();
-        DialogHelper.showSnackBar(strMsg: e.toString());
+        DialogHelper.showSnackBar(strMsg: e.toString(),context: context);
       }
     }
   }
@@ -357,8 +363,7 @@ class _LoginViewState extends State<LoginView> {
   }
 
   void registrationPage() {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => const SignUpView()),
-        (route) => false);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const SignUpView()));
   }
 }
