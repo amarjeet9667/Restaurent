@@ -41,6 +41,8 @@ class _PaymentViewState extends State<PaymentView> {
   Map<String, dynamic>? paymentIntent;
   @override
   Widget build(BuildContext context) {
+    String payAmount =
+        (context.read<AddButtonProvider>().cartAmount + 25).toString();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -360,7 +362,7 @@ class _PaymentViewState extends State<PaymentView> {
                                     ],
                                   ),
                                   Text(
-                                    "₹ ${value.cartAmount + 25}",
+                                    "₹ $payAmount",
                                     style: const TextStyle(
                                         color: green,
                                         fontSize: 18,
@@ -450,8 +452,10 @@ class _PaymentViewState extends State<PaymentView> {
                 Consumer<AddButtonProvider>(
                   builder: (context, value, child) {
                     return InkWell(
-                      onTap: () {
-                        makePayment();
+                      onTap: () async {
+                        paymentIntent =
+                            await createPaymentIntent(payAmount, 'INR');
+                        makePayment(payAmount, 'INR');
                       },
                       child: Container(
                         height: 60,
@@ -469,7 +473,7 @@ class _PaymentViewState extends State<PaymentView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "\u20B9 ${value.cartAmount + 25}",
+                                  "\u20B9 $payAmount",
                                   style: const TextStyle(
                                       color: white,
                                       fontSize: 15,
@@ -514,9 +518,9 @@ class _PaymentViewState extends State<PaymentView> {
     );
   }
 
-  void makePayment() async {
+  void makePayment(String amount, String currency) async {
     try {
-      paymentIntent = await createPaymentIntent('200', 'INR');
+      paymentIntent = await createPaymentIntent(amount, currency);
       if (paymentIntent != null && paymentIntent!['client_secret'] != null) {
         await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
@@ -526,8 +530,8 @@ class _PaymentViewState extends State<PaymentView> {
               currencyCode: 'INR',
               merchantCountryCode: 'IN',
             ),
-            style: ThemeMode.light,
-            merchantDisplayName: '0002_AMARJEET',
+            style: ThemeMode.dark,
+            merchantDisplayName: 'AMARJEET',
           ),
         );
         displayPaymentSheet();
@@ -548,6 +552,7 @@ class _PaymentViewState extends State<PaymentView> {
       setState(() {
         paymentIntent = null;
       });
+
       _processPayment();
     } on StripeException catch (e) {
       DialogHelper.showSnackBar(
@@ -600,7 +605,26 @@ class _PaymentViewState extends State<PaymentView> {
 
       _playSuccessSound();
 
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(milliseconds: 100), () async {
+        try {
+          await fireStore
+              .collection('User')
+              .doc(firebaseAuth.currentUser!.uid)
+              .collection('paymentHistory')
+              .add({
+            'payment': context.read<AddButtonProvider>().cartAmount + 25,
+            'time': DateTime.now().toIso8601String()
+          });
+          setState(() {
+            paymentIntent = null;
+          });
+        } catch (e) {
+          DialogHelper.showSnackBar(
+            strMsg: 'Error while storing data: ${e.toString()}',
+            context: context,
+          );
+        }
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const SuccessfulPage()),
