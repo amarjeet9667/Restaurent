@@ -70,7 +70,7 @@ class CustomFlexibleBar extends StatelessWidget {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: green),
-                            child: const Icon(
+                            child: Icon(
                               MdiIcons.tuneVerticalVariant,
                               color: white,
                             ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:restaurent_test1/app/helper/constants.dart';
+import 'package:restaurent_test1/app/view/screens/home.dart';
 
 class SuccessfulPage extends StatefulWidget {
   const SuccessfulPage({Key? key}) : super(key: key);
@@ -39,60 +40,87 @@ class _SuccessfulPageState extends State<SuccessfulPage>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: green,
         title: const Text('Successful Page'),
         centerTitle: true,
       ),
-      body: Center(
-        child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: fireStore
-                .collection('User')
-                .doc(firebaseAuth.currentUser!.uid)
-                .collection('paymentHistory')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              final docs = snapshot.data!.docs;
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: fireStore
+                    .collection('User')
+                    .doc(firebaseAuth.currentUser!.uid)
+                    .collection('paymentHistory')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final docs = snapshot.data!.docs;
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _animationController,
-                    builder: (context, child) {
-                      return Opacity(
-                        opacity: _animation.value,
-                        child: _animation.value == 1
-                            ? const Icon(
-                                Icons.verified,
-                                color: Colors.green,
-                                size: 100.0,
-                              )
-                            : const SpinKitCircle(
-                                color: Colors.green,
-                                size: 100.0,
-                              ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    '₹ ${docs[0].get('payment') ?? ''}',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  const Text(
-                    'Payment Successful!',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              );
-            }),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AnimatedBuilder(
+                        animation: _animationController,
+                        builder: (context, child) {
+                          return Opacity(
+                            opacity: _animation.value,
+                            child: _animation.value == 1
+                                ? const Icon(
+                                    Icons.verified,
+                                    color: Colors.green,
+                                    size: 100.0,
+                                  )
+                                : const SpinKitCircle(
+                                    color: Colors.green,
+                                    size: 100.0,
+                                  ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        '₹ ${docs.last.get('payment') ?? ''}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const Text(
+                        'Payment Successful!',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  );
+                }),
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(green),
+                fixedSize: MaterialStateProperty.all(
+                  Size(width * 0.8, 40),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const HomeView()),
+                    (route) => false);
+              },
+              child: const Text(
+                'Done',
+                style: TextStyle(
+                  color: white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ))
+        ],
       ),
     );
   }

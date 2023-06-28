@@ -7,6 +7,7 @@ import 'package:restaurent_test1/app/provider/addbutton_provider.dart';
 import 'package:restaurent_test1/app/provider/bottom_provider.dart';
 import 'package:restaurent_test1/app/helper/constants.dart';
 import 'package:restaurent_test1/app/view/screens/splash_screen.dart';
+import 'dart:ui' as ui;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: trans));
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: trans, statusBarIconBrightness: ui.Brightness.dark));
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

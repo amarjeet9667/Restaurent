@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    
     package="com.example.restaurent_test1">
 
     <application
@@ -36,7 +36,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <activity
+        <!-- <activity
             android:name="com.google.android.gms.wallet.PaymentMethodTokenizationParameters"
             tools:node="remove" />
 
@@ -46,7 +46,7 @@
 
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled_for_payments"
-            android:value="true" />
+            android:value="true" /> -->
 
     </application>
 </manifest>

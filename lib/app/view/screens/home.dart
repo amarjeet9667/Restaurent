@@ -35,9 +35,19 @@ class _HomeViewState extends State<HomeView> {
     fetchData();
   }
 
-  fetchData() async {
+  
+
+  Future<void> fetchData() async {
     final jsonMenu = await rootBundle.loadString("assets/menu.json");
     Map<String, dynamic> data = jsonDecode(jsonMenu);
+
+    // Clear the existing data lists
+    mealName.clear();
+    mealImage.clear();
+    mealPrice.clear();
+    mealInstock.clear();
+    categories.clear();
+    categories1.clear();
 
     for (final category in data.keys) {
       final itemData = data[category];
@@ -64,6 +74,8 @@ class _HomeViewState extends State<HomeView> {
     }
     setState(() {});
   }
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -77,34 +89,38 @@ class _HomeViewState extends State<HomeView> {
           drawer: CustomDrawer(height: height),
           body: Stack(
             children: [
-              CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                slivers: [
-                  SliverAppBar(
-                    backgroundColor: white,
-                    expandedHeight: height * 0.3,
-                    elevation: 0,
-                    automaticallyImplyLeading: false,
-                    collapsedHeight: kToolbarHeight + 35,
-                    pinned: true,
-                    title: const CustomTitle(),
-                    flexibleSpace: const CustomFlexibleBar(),
-                    bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(0),
-                      child: MyBottom(
-                        categories: categories,
+              RefreshIndicator(
+                onRefresh: () => fetchData(),
+                color: green,
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  slivers: [
+                    SliverAppBar(
+                      backgroundColor: white,
+                      expandedHeight: height * 0.3,
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      collapsedHeight: kToolbarHeight + 35,
+                      pinned: true,
+                      title: const CustomTitle(),
+                      flexibleSpace: const CustomFlexibleBar(),
+                      bottom: PreferredSize(
+                        preferredSize: const Size.fromHeight(0),
+                        child: MyBottom(
+                          categories: categories,
+                        ),
                       ),
                     ),
-                  ),
-                  CustomSliverToBox(
-                    tabs: categories1,
-                    price: mealPrice,
-                    name: mealName,
-                    image: mealImage,
-                    bools: mealInstock,
-                  ),
-                ],
+                    CustomSliverToBox(
+                      tabs: categories1,
+                      price: mealPrice,
+                      name: mealName,
+                      image: mealImage,
+                      bools: mealInstock,
+                    ),
+                  ],
+                ),
               ),
               payNow()
             ],
@@ -186,53 +202,51 @@ Consumer<AddButtonProvider> payNow() {
             curve: Curves.bounceOut,
             child: !(value.cartAmount > 0)
                 ? const Text("")
-                : Container(
-                    height: 60,
-                    width: 340,
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 15 + MediaQuery.of(context).viewInsets.bottom,
-                      vertical: 12.5,
-                    ),
-                    padding: const EdgeInsets.only(left: 20, right: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35),
-                      color: green.withOpacity(1),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                " ${value.cart.length} ITEMS",
-                                style: const TextStyle(
-                                  color: white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                  letterSpacing: 2,
+                : InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const PaymentView()));
+                    },
+                    child: Container(
+                      height: 60,
+                      width: 340,
+                      margin: EdgeInsets.symmetric(
+                        horizontal:
+                            15 + MediaQuery.of(context).viewInsets.bottom,
+                        vertical: 12.5,
+                      ),
+                      padding: const EdgeInsets.only(left: 20, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(35),
+                        color: green.withOpacity(1),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  " ${value.cart.length} ITEMS",
+                                  style: const TextStyle(
+                                    color: white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    letterSpacing: 2,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "\u20B9 ${value.cartAmount} plus taxes",
-                                style: const TextStyle(color: white),
-                              )
-                            ],
+                                Text(
+                                  "\u20B9 ${value.cartAmount} plus taxes",
+                                  style: const TextStyle(color: white),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          style: const ButtonStyle(
-                            overlayColor: MaterialStatePropertyAll(trans),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const PaymentView()));
-                          },
-                          child: Row(
-                            children: const [
+                          const Row(
+                            children: [
                               Text(
                                 "PAY NOW",
                                 style: TextStyle(
@@ -250,8 +264,8 @@ Consumer<AddButtonProvider> payNow() {
                               )
                             ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
           ),

@@ -322,21 +322,21 @@ class _PaymentViewState extends State<PaymentView> {
                                   ),
                                 ],
                               ),
-                              const Row(
+                              Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       Icon(MdiIcons.officeBuilding),
-                                      SizedBox(width: 5),
-                                      Text("GST"),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
+                                      const Text("GST"),
+                                      const SizedBox(width: 5),
                                       Icon(MdiIcons.informationOutline,
                                           size: 16),
                                     ],
                                   ),
-                                  Text("₹ 25",
+                                  const Text("₹ 25",
                                       style: TextStyle(
                                           color: green,
                                           fontSize: 18,
@@ -362,7 +362,7 @@ class _PaymentViewState extends State<PaymentView> {
                                     ],
                                   ),
                                   Text(
-                                    "₹ $payAmount",
+                                    "₹ ${value.cartAmount + 25}",
                                     style: const TextStyle(
                                         color: green,
                                         fontSize: 18,
@@ -453,9 +453,9 @@ class _PaymentViewState extends State<PaymentView> {
                   builder: (context, value, child) {
                     return InkWell(
                       onTap: () async {
-                        paymentIntent =
-                            await createPaymentIntent(payAmount, 'INR');
-                        makePayment(payAmount, 'INR');
+                        paymentIntent = await createPaymentIntent(
+                            '${value.cartAmount + 25}', 'INR');
+                        makePayment('${value.cartAmount + 25}', 'INR');
                       },
                       child: Container(
                         height: 60,
@@ -473,7 +473,7 @@ class _PaymentViewState extends State<PaymentView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "\u20B9 $payAmount",
+                                  "\u20B9 ${value.cartAmount + 25}",
                                   style: const TextStyle(
                                       color: white,
                                       fontSize: 15,
@@ -585,8 +585,9 @@ class _PaymentViewState extends State<PaymentView> {
       }
     } catch (e) {
       DialogHelper.showSnackBar(
-          strMsg: 'Error while creating payment jeet intent: ${e.toString()}',
+          strMsg: 'Error while creating payment intent: ${e.toString()}',
           context: context);
+      log(e.toString());
       return null;
     }
     return null;
@@ -598,7 +599,7 @@ class _PaymentViewState extends State<PaymentView> {
   }
 
   void _processPayment() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () async {
       setState(() {
         _isPaymentSuccessful = true;
       });
@@ -607,14 +608,24 @@ class _PaymentViewState extends State<PaymentView> {
 
       Future.delayed(const Duration(milliseconds: 100), () async {
         try {
+          const String recipientId =
+              'acct_1234567890abcdefghijklmnopqrstuvwxyz';
+          const String recipientName = 'Amarjeet';
+
+          final Map<String, dynamic> paymentData = {
+            'payment': context.read<AddButtonProvider>().cartAmount + 25,
+            'recipient_name': recipientName,
+            'time': DateTime.now().toIso8601String(),
+          };
+
+          paymentData['recipient_id'] = recipientId;
+
           await fireStore
               .collection('User')
               .doc(firebaseAuth.currentUser!.uid)
               .collection('paymentHistory')
-              .add({
-            'payment': context.read<AddButtonProvider>().cartAmount + 25,
-            'time': DateTime.now().toIso8601String()
-          });
+              .add(paymentData);
+
           setState(() {
             paymentIntent = null;
           });
